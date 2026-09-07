@@ -8,12 +8,15 @@
         <h1 class="hero-title">Empowering Your Journey in a Space Built for Her</h1>
         
         <div class="hero-description">
-            <p> Experience peace of mind with 24/7 security in a vibrant environment designed exclusively for girls. Focus on your goals while we take care of the rest—from high-speed internet to nutritious meals. More than just a room—it's a community where friendships grow and dreams take flight.</p>
+            <p> <p style="text-align: justify;">
+  <br>
+  Experience peace of mind with 24/7 security in a vibrant environment designed exclusively for girls. Focus on your goals while we take care of the rest—from high-speed internet to nutritious meals. More than just a room—it's a community where friendships grow and dreams take flight.
+</p>
         </div>
     </div>
 
     <div class="hero-image">
-        <img src="{{ asset('Assert\Hero2.jpg') }}" alt="Hostel Interior">
+        <img src="{{ asset('Assert/pic2.jpeg') }}" alt="Hostel Interior">
     </div>
 </section>
 @include('Component.spilt')

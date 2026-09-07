@@ -3,7 +3,7 @@
 /* ======================================== */
 
 .facilities-stacked-section {
-    padding: 100px 0;
+    padding: 100px 0 120px 0 !important;
     background: linear-gradient(135deg, #e8dcc8 0%, #f5efe6 100%);
     position: relative;
     overflow: hidden;
@@ -136,12 +136,13 @@
 /* ======================================== */
 
 .facility-card-main {
-    height: 450px;
+    height: auto !important;
+    min-height: 450px;
     border-radius: 60px;
     color: #ffffff;
-    overflow: hidden;
+    overflow: visible !important;
     position: relative;
-    padding: 40px 40px 30px 40px;
+    padding: 40px 40px 50px 40px !important;
     box-shadow: 0 20px 60px rgba(139, 115, 85, 0.15);
     border: 2px solid rgba(255, 255, 255, 0.1);
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
@@ -393,18 +394,60 @@
 }
 
 /* ======================================== */
+/* SEATING AREA - CUT NAHI HOGA */
+/* ======================================== */
+
+.seating-area-wrapper {
+    position: relative;
+    z-index: 4;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    overflow: visible !important;
+    clear: both;
+}
+
+.seating-area-wrapper h3,
+.seating-area-wrapper .seating-area-text {
+    color: #FFFFFF !important;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: block;
+    overflow: visible !important;
+}
+
+/* Card ke andar agar Seating Area hai toh */
+.facility-card-main .seating-area-wrapper {
+    position: relative;
+    z-index: 4;
+    margin-top: 15px;
+    padding-bottom: 30px;
+    overflow: visible !important;
+}
+
+.facility-card-main .seating-area-wrapper h3,
+.facility-card-main .seating-area-wrapper .seating-area-text {
+    color: #FFFFFF !important;
+    font-size: 1.4rem;
+    font-weight: 700;
+    overflow: visible !important;
+}
+
+/* ======================================== */
 /* RESPONSIVE */
 /* ======================================== */
 
 @media (max-width: 1024px) {
     .facilities-stacked-section {
-        padding: 80px 0;
+        padding: 80px 0 100px 0 !important;
     }
 
     .facility-card-main {
-        height: 400px;
+        height: auto !important;
+        min-height: 400px;
         border-radius: 40px;
-        padding: 30px;
+        padding: 30px 30px 40px 30px !important;
     }
 
     .card-heading-large {
@@ -425,18 +468,23 @@
         padding: 10px 25px;
         font-size: 0.85rem;
     }
+
+    .facility-card-main .seating-area-wrapper h3,
+    .facility-card-main .seating-area-wrapper .seating-area-text {
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 768px) {
     .facilities-stacked-section {
-        padding: 60px 0;
+        padding: 60px 0 80px 0 !important;
     }
 
     .facility-card-main {
-        height: auto;
+        height: auto !important;
         min-height: 500px;
         border-radius: 30px;
-        padding: 25px 25px 20px 25px;
+        padding: 25px 25px 40px 25px !important;
     }
 
     .card-heading-large {
@@ -499,17 +547,27 @@
         padding: 10px 22px;
         font-size: 0.85rem;
     }
+
+    .facility-card-main .seating-area-wrapper h3,
+    .facility-card-main .seating-area-wrapper .seating-area-text {
+        font-size: 1.1rem;
+    }
+
+    .seating-area-wrapper {
+        padding-bottom: 30px;
+    }
 }
 
 @media (max-width: 576px) {
     .facilities-stacked-section {
-        padding: 40px 15px;
+        padding: 40px 15px 60px 15px !important;
     }
 
     .facility-card-main {
+        height: auto !important;
         min-height: 450px;
         border-radius: 20px;
-        padding: 20px 20px 15px 20px;
+        padding: 20px 20px 50px 20px !important;
     }
 
     .card-heading-large {
@@ -564,6 +622,15 @@
     .card-image-container {
         height: 200px;
         border-radius: 15px;
+    }
+
+    .facility-card-main .seating-area-wrapper h3,
+    .facility-card-main .seating-area-wrapper .seating-area-text {
+        font-size: 1rem;
+    }
+
+    .seating-area-wrapper {
+        padding-bottom: 40px;
     }
 }
 
@@ -653,6 +720,16 @@
 
     .card-number {
         color: rgba(255, 255, 255, 0.04);
+    }
+
+    .facility-card-main .seating-area-wrapper h3,
+    .facility-card-main .seating-area-wrapper .seating-area-text {
+        color: #E8B86D !important;
+    }
+
+    .seating-area-wrapper h3,
+    .seating-area-wrapper .seating-area-text {
+        color: #E8B86D !important;
     }
 }
 

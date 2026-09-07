@@ -12,7 +12,11 @@
                 <div class="heading-line reveal-down"></div>
                 
                 <div class="about-passage" id="typewriter-text">
-                    Experience peace of mind with 24/7 security in a vibrant environment designed exclusively for girls. Focus on your goals while we take care of the rest—from high-speed internet to nutritious meals. More than just a room—it's a community where friendships grow and dreams take flight.
+                  <p class="justify-text">
+  <h1>ABOUT US</h1>
+<p style="text-align: justify;">
+  At GCW Hostel, we provide more than just accommodation — we offer a secure, supportive, and vibrant community for girls to live, learn, and grow. With round-the-clock security, modern amenities, and a warm homely atmosphere, we ensure you have everything you need to succeed. Join us and experience a place where comfort meets convenience, and every girl is empowered to reach her full potential.
+</p>  
                 </div>
             </div>
 
@@ -32,6 +36,5 @@
 @include('Component.History')
 @include('Component.gallery')
 @include('Component.faq')
-@include('Component.contact_detail')
 
 @endsection

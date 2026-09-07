@@ -16,6 +16,34 @@
     <!-- ===== LOGIN CSS ===== -->
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     
+    <style>
+        /* Password toggle button style */
+        .password-wrapper {
+            position: relative;
+        }
+        .password-wrapper .form-control {
+            padding-right: 50px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 5px 8px;
+            z-index: 10;
+        }
+        .toggle-password:hover {
+            color: #2d1b3d;
+        }
+        .toggle-password:focus {
+            outline: none;
+        }
+    </style>
 </head>
 <body>
 
@@ -55,7 +83,12 @@
 
             <div class="form-group">
                 <label><i class="fas fa-lock"></i> Password</label>
-                <input type="password" class="form-control" name="password" placeholder="Enter your password" required>
+                <div class="password-wrapper">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
+                    <button type="button" class="toggle-password" id="togglePasswordBtn" aria-label="Show password">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="remember-forgot">
@@ -80,6 +113,36 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.getElementById('togglePasswordBtn');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            if (passwordInput && toggleBtn && eyeIcon) {
+                let isPasswordVisible = false;
+
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    if (isPasswordVisible) {
+                        passwordInput.type = 'password';
+                        eyeIcon.className = 'fas fa-eye';
+                        toggleBtn.setAttribute('aria-label', 'Show password');
+                        isPasswordVisible = false;
+                    } else {
+                        passwordInput.type = 'text';
+                        eyeIcon.className = 'fas fa-eye-slash';
+                        toggleBtn.setAttribute('aria-label', 'Hide password');
+                        isPasswordVisible = true;
+                    }
+                    
+                    passwordInput.focus();
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -7,7 +7,7 @@
             <div class="col-lg-6 contact-content reveal-up">
                 <h2 class="contact-main-heading">Contact Us</h2>
                 <p class="contact-subtext mb-5">
-                    Egestas pretium aenean pharetra magna ac. Et tortor consequat id porta nibh venenatis cras sed.
+                    Have any questions or need assistance? Feel free to reach out to us — we're here to help!
                 </p>
                 
                 <div class="info-grid">
