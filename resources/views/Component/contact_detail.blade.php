@@ -35,7 +35,7 @@
             </div>
 
             <div class="col-lg-6 map-container reveal-zoom">
-                <img src="{{ asset('Assert/contact.png') }}" alt="Our Location" class="map-img">
+                <img src="{{ asset('Assert/pic12.jpeg') }}" alt="Our Location" class="map-img">
             </div>
 
         </div>

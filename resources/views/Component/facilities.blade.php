@@ -15,7 +15,7 @@
                         'label' => 'Outdoor',
                         'title' => 'Lush Green Lawns',
                         'desc' => 'Our outdoor space is designed for relaxation and connection with nature. Enjoy the fresh air in our charming garden nook, surrounded by shady trees and lush greenery.',
-                        'img' => 'Assert/image copy.png',
+                        'img' => 'Assert/pic9.jpeg',
                         'features' => ['🌿 Garden Area', '🌳 Shady Trees', '🪑 Seating Areas']
                     ],
                     [
@@ -23,7 +23,7 @@
                         'label' => 'Interior',
                         'title' => 'Comfortable Living',
                         'desc' => 'Experience a home-like feel with our fully equipped dining areas and neat, clean washrooms designed for modern student life.',
-                        'img' => 'Assert/room2.jpeg',
+                        'img' => 'Assert/pic10.jpeg',
                         'features' => ['🛋️ Modern Furniture', '🍽️ Dining Area', '🚿 Clean Washrooms']
                     ],
                     [
@@ -31,7 +31,7 @@
                         'label' => 'Safety',
                         'title' => 'Advanced Security',
                         'desc' => 'Security is our priority. We feature 24/7 CCTV surveillance, and professional on-site guards.',
-                        'img' => 'Assert/feature.jpeg',
+                        'img' => 'Assert/pic5.jpeg',
                         'features' => ['📹 24/7 CCTV', '🛡️ On-site Guards', '🔒 Secure Access']
                     ],
                     [
@@ -39,7 +39,7 @@
                         'label' => 'Dining',
                         'title' => 'Hygienic Mess',
                         'desc' => 'Enjoy nutritious, hygienic food with special party meals served 4 times a month and bi-monthly treats for all residents.',
-                        'img' => 'Assert/image.png',
+                        'img' => 'Assert/pic8.jpeg',
                         'features' => ['🥗 Nutritious Meals', '🎉 Party Meals', '🧼 Hygienic Kitchen']
                     ]
                 ];

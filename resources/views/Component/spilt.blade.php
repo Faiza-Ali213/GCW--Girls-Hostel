@@ -116,14 +116,14 @@
         <div class="row align-items-start">
             <div class="col-md-6 mb-5 mb-md-0 reveal-left">
                 <div class="img-container">
-                    <img src="{{ asset('Assert/spilt-image2.png') }}" 
+                    <img src="{{ asset('Assert/pic11.jpeg') }}" 
                          alt="Hostel Common Area" class="split-img-tall">
                 </div>
             </div>
 
             <div class="col-md-6 ps-md-5 reveal-right">
                 <div class="mb-4">
-                    <img src="{{ asset('Assert/spilt-image1.png') }}" 
+                    <img src="{{ asset('Assert/pic3.jpeg') }}" 
                          alt="Study Zone" class="split-img-small">
                 </div>
 

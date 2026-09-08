@@ -18,7 +18,7 @@
                         'name' => 'Premium Twin Suite',
                         'desc' => 'Our most exclusive sharing option. Designed for two students, this room offers maximum privacy, dedicated individual study desks, and extra storage for a focused academic life.',
                         'sharing' => '2 Persons Sharing',
-                        'image' => 'Assert/room2.jpg',
+                        'image' => 'Assert/pic6.jpeg',
                         'icon' => 'bi-people-fill'
                     ],
                     [

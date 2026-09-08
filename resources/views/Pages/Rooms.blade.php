@@ -48,7 +48,7 @@
                         'name' => 'Premium Twin Suite',
                         'desc' => 'Our most exclusive sharing option. Designed for two students, offering maximum privacy and dedicated study zones.',
                         'sharing' => '2 Persons Sharing',
-                        'image' => 'Assert/room2.jpg',
+                        'image' => 'Assert/pic6.jpeg',
                         'icon' => 'bi-people-fill'
                     ],
                     [
@@ -62,7 +62,7 @@
                         'name' => 'Economy Quad Room',
                         'desc' => 'A vibrant community-focused space for four students. Affordable luxury with spacious layouts.',
                         'sharing' => '4 Persons Sharing',
-                        'image' => 'Assert/room3.jpeg',
+                        'image' => 'Assert/pic1.jpeg',
                         'icon' => 'bi-grid-3x3-gap-fill'
                     ]
                 ];

@@ -27,6 +27,7 @@ class PageController extends Controller
     {
         return view('Pages.Rooms');
     }
+  
     public function booking()
     {
         return view('Pages.booking');

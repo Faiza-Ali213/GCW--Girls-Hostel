@@ -56,7 +56,7 @@
 
             <div class="col-lg-6">
                 <div class="feature-image-wrapper reveal-left-slide">
-                    <img src="{{ asset('Assert/feature.jpg') }}" alt="Hostel Life" class="feature-main-img">
+                    <img src="{{ asset('Assert/pic13.jpeg') }}" alt="Hostel Life" class="feature-main-img">
                     <div class="play-button-overlay">
                         <div class="play-icon"><i class="bi bi-play-fill"></i></div>
                     </div>
