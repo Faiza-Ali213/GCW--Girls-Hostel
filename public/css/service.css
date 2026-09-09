@@ -205,13 +205,15 @@
 }
 
 /* ======================================== */
-/* RIGHT IMAGE SECTION */
+/* ✅ FIXED: RIGHT IMAGE SECTION - NO CUTTING */
 /* ======================================== */
 
 .image-panel {
     flex: 1;
     position: relative;
     overflow: hidden;
+    min-height: 100vh;
+    background: #3D2D22;
 }
 
 .image-panel::before {
@@ -230,7 +232,9 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center center;
     transition: transform 0.8s ease;
+    display: block;
 }
 
 .image-panel:hover img {
@@ -439,15 +443,28 @@
     .dental-hero {
         flex-direction: column;
         height: auto;
+        min-height: 100vh;
     }
 
     .teal-panel {
         padding: 80px 40px;
-        min-height: 60vh;
+        min-height: 50vh;
+        flex: none;
+        width: 100%;
     }
 
     .image-panel {
         min-height: 50vh;
+        max-height: 60vh;
+        flex: none;
+        width: 100%;
+    }
+
+    .image-panel img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
     }
 
     .floating-tabs {
@@ -473,7 +490,7 @@
 
     .teal-panel {
         padding: 60px 30px;
-        min-height: 50vh;
+        min-height: 45vh;
     }
 
     .content-wrapper {
@@ -482,6 +499,11 @@
 
     .hero-description {
         font-size: 1rem;
+    }
+
+    .image-panel {
+        min-height: 40vh;
+        max-height: 50vh;
     }
 
     .floating-tabs {
@@ -530,6 +552,11 @@
 
     .hero-description {
         font-size: 0.9rem;
+    }
+
+    .image-panel {
+        min-height: 30vh;
+        max-height: 40vh;
     }
 
     .floating-stats {
@@ -659,6 +686,10 @@
 
     .image-panel::before {
         background: linear-gradient(135deg, rgba(42, 31, 24, 0.1), rgba(74, 50, 40, 0.05));
+    }
+
+    .image-panel {
+        background: #1A120E;
     }
 
     .dental-hero::before {

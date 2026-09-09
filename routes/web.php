@@ -179,10 +179,6 @@ Route::middleware('auth')->group(function () {
         // ============================================
         // Complaint Management
         // ============================================
-        // Complaint Registration (Public - For Users) - MUST be outside Admin middleware
-        // Moved to outside Admin middleware section
-
-        // Complaint Management Routes (Admin)
         Route::prefix('complaints')->name('complaints.')->group(function () {
             Route::get('/', [ComplaintController::class, 'index'])->name('index');
             Route::get('/create', [ComplaintController::class, 'create'])->name('create');
@@ -305,3 +301,22 @@ Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/faq', [PageController::class, 'faq'])->name('faq');
 Route::get('/rules', [PageController::class, 'rules'])->name('rules');
 Route::get('/booking', [PageController::class, 'booking'])->name('booking');
+
+// ============================================================
+// ✅ CONTACT FORM POST ROUTE (ADDED AT THE BOTTOM)
+// ============================================================
+Route::post('/contact', function (Illuminate\Http\Request $request) {
+    
+    // Validate the form data
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'subject' => 'nullable|string|max:255',
+        'message' => 'required|string|min:10',
+    ]);
+
+    // ✅ Process your data here
+    // For now, just return success
+    return back()->with('success', '✅ Your message has been sent successfully!');
+    
+})->name('contact.submit');

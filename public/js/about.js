@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const textElement = document.getElementById('typewriter-text');
     const content = textElement.innerText.trim();
     const words = content.split(/\s+/); // Split by any whitespace
@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     words.forEach(word => {
         const span = document.createElement('span');
         span.classList.add('word-span');
-        span.innerText = word; 
+        span.innerText = word;
         textElement.appendChild(span);
-        
+
         // Add a text node for the space so it doesn't get swallowed
         textElement.appendChild(document.createTextNode(' '));
     });
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         span.style.opacity = '1';
                     }, index * 100); // Adjusted timing for smoother flow
                 });
-                
+
                 // Once triggered, stop observing
                 observer.unobserve(entry.target);
             }
