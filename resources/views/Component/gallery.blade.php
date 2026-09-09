@@ -13,19 +13,19 @@
 
         <div class="gallery-grid">
             <div class="gallery-item item-1 reveal-left">
-                <img src="{{ asset('Assert/gallery1.jpg') }}" alt="Hostel Exterior">
+                <img src="{{ asset('Assert/pic15.jpeg') }}" alt="Hostel Exterior">
             </div>
             <div class="gallery-item item-2 reveal-down">
-                <img src="{{ asset('Assert/spilt-image2.png') }}" alt="Hostel Common Area">
+                <img src="{{ asset('Assert/pic16.jpeg') }}" alt="Hostel Common Area">
             </div>
             <div class="gallery-item item-3 reveal-right">
-                <img src="{{ asset('Assert/room2.jpg') }}" alt="Hostel Room">
+                <img src="{{ asset('Assert/pic6.jpeg') }}" alt="Hostel Room">
             </div>
             <div class="gallery-item item-4 reveal-up">
-                <img src="{{ asset('Assert/image.png') }}" alt="Dining Hall">
+                <img src="{{ asset('Assert/pic8.jpeg') }}" alt="Dining Hall">
             </div>
             <div class="gallery-item item-5 reveal-left">
-                <img src="{{ asset('Assert/image copy.png') }}" alt="Garden">
+                <img src="{{ asset('Assert/pic11.jpeg') }}" alt="Garden">
             </div>
         </div>
     </div>

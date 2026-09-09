@@ -16,7 +16,7 @@
                 <div class="history-image-wrapper">
                     <div class="history-frame shadow-lg">
                         {{-- Fix: Use correct asset path and add fallback --}}
-                        <img src="{{ asset('Assert/Excellence.jpeg') }}" 
+                        <img src="{{ asset('Assert/pic18.jpeg') }}" 
                              alt="Foundation Stone 1980" 
                              class="img-fluid w-100"
                              onerror="this.src='{{ asset('images/default.jpg') }}'; this.alt='Image not found';">
