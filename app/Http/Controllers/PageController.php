@@ -38,17 +38,17 @@ class PageController extends Controller
 
     public function gallery()
     {
-        return view('Pages.gallery'); // Yahan Component se Pages kar diya hai
+        return view('Pages.gallery'); 
     }
 
     public function faq()
     {
-        return view('component.faq'); // Yahan bhi Pages kar diya hai
+        return view('Pages.faq'); 
     }
 
     public function rules()
     {
-        return view('component.rules'); // Yahan bhi Pages kar diya hai
+        return view('Pages.rules'); 
     }
 
     // ==================================================
