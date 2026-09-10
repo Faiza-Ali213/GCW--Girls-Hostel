@@ -34,7 +34,7 @@
 <script src="{{ asset('js/about.js') }}"></script>
 
 @include('Component.History')
-@include('Component.gallery')
+@include('component.gallery')
 @include('Component.faq')
 
 @endsection
