@@ -23,6 +23,7 @@ class PageController extends Controller
     {
         return view('Pages.contact');
     }
+    
     public function Rooms()
     {
         return view('Pages.Rooms');
@@ -33,39 +34,62 @@ class PageController extends Controller
         return view('Pages.booking');
     }
 
-     public function student_records()
+    // ===== NAYE METHODS (Explore section ke liye) =====
+
+    public function gallery()
+    {
+        return view('Pages.gallery'); // Yahan Component se Pages kar diya hai
+    }
+
+    public function faq()
+    {
+        return view('component.faq'); // Yahan bhi Pages kar diya hai
+    }
+
+    public function rules()
+    {
+        return view('component.rules'); // Yahan bhi Pages kar diya hai
+    }
+
+    // ==================================================
+
+    public function student_records()
     {
         return view('Pages.Admin.student_records');
     }
-        public function Room_allocation()
+    
+    public function Room_allocation()
     {
         return view('Pages.Admin.Room_allocation');
     }
-     public function fee_record()
+    
+    public function fee_record()
     {
         return view('Pages.Admin.fee_record');
     }
-     public function staff_records()
+    
+    public function staff_records()
     {
         return view('Pages.Admin.staff_records');
     }
-       public function vistors_records()
+    
+    public function vistors_records()
     {
-            return view('Pages.Admin.vistors_records');
+        return view('Pages.Admin.vistors_records');
     }
+    
     public function Complain_request()
     {
-            return view('Pages.Admin.Complain_request');
+        return view('Pages.Admin.Complain_request');
     }
+    
     public function Notification()
     {
-            return view('Pages.Admin.Notification');
+        return view('Pages.Admin.Notification');
     }
+    
     public function dashboard()
     {
         return view('Pages.Admin.dashboard');
     }
-
-
-
 }

@@ -29,7 +29,7 @@
     @include('Component.rules')
 </section>
 <section id="gallery-section">
-    @include('Component.gallery')
+    @include('pages.gallery')
 </section>
 @include('Component.contact_detail')
 
