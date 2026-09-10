@@ -25,7 +25,7 @@
                         'name' => 'Classic Triple Sharing',
                         'desc' => 'The perfect balance of social life and personal space. This room comfortably accommodates three students with individual wardrobes and high-quality shared furniture.',
                         'sharing' => '3 Persons Sharing',
-                        'image' => 'Assert/room4.jpeg',
+                        'image' => 'Assert/pic19.jpeg',
                         'icon' => 'bi-microsoft-teams'
                     ]
                 ];
