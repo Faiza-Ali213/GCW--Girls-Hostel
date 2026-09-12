@@ -38,7 +38,7 @@ class PageController extends Controller
 
     public function gallery()
     {
-        return view('Pages.gallery'); 
+        return view('Components.gallery'); 
     }
 
     public function faq()
