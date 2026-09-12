@@ -552,3 +552,101 @@ body.page-fade-out {
     --booking-bg-start: #e8dcc8;
     --booking-bg-end: #f5efe6;
 }
+
+/* ======================================== */
+/* ✅ FIXED: Contact Card Box Color Change */
+/* ======================================== */
+.contact-card {
+    background: linear-gradient(135deg, #4A3228 0%, #6B5544 50%, #8B6B4A 100%) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 20px 50px rgba(74, 50, 40, 0.3) !important;
+}
+
+.contact-card h5 {
+    color: #FFFFFF !important;
+}
+
+.contact-card p {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.contact-card i {
+    color: #E8B86D !important;
+}
+
+.contact-card span {
+    color: #FFFFFF !important;
+}
+
+/* Chat on WhatsApp Button */
+.contact-card .btn-light,
+.contact-card a.btn,
+.contact-card a.btn-light {
+    background: linear-gradient(135deg, #8B6B4A 0%, #A8825A 100%) !important;
+    color: #FFFFFF !important;
+    border: 2px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.4s ease !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+.contact-card .btn-light:hover,
+.contact-card a.btn:hover,
+.contact-card a.btn-light:hover {
+    background: linear-gradient(135deg, #6B5544 0%, #8B6B4A 100%) !important;
+    color: #FFFFFF !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ======================================== */
+/* ✅ FIXED: Info Card (On-Site Registration) */
+/* ======================================== */
+.info-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #f5efe6 100%) !important;
+    border: 2px solid rgba(139, 107, 74, 0.15) !important;
+    box-shadow: 0 20px 50px rgba(139, 115, 85, 0.15) !important;
+    border-radius: 20px !important;
+}
+
+.info-card h2,
+.info-card .fw-bold {
+    color: #4A3228 !important;
+}
+
+.info-card h4 {
+    color: #8B6B4A !important;
+    font-weight: 800 !important;
+}
+
+.info-card p,
+.info-card .text-muted {
+    color: #6B5544 !important;
+}
+
+.info-card small,
+.info-card .text-muted small {
+    color: #6B5544 !important;
+}
+
+.info-card h6 {
+    color: #4A3228 !important;
+    font-weight: 700 !important;
+}
+
+.info-card hr {
+    border-top: 2px dashed rgba(139, 107, 74, 0.25) !important;
+    opacity: 1 !important;
+}
+
+.info-card .step-num {
+    color: #8B6B4A !important;
+    font-weight: 800 !important;
+}
+
+.info-card .icon-box i {
+    color: #8B6B4A !important;
+}

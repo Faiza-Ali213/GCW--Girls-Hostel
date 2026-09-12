@@ -23,5 +23,6 @@
 @include('Component.menu')
 @include('Component.room')
 @include('Component.facilities')
+@include('Component.fees')
 @include('Component.faq')
 @endsection

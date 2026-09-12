@@ -1,0 +1,242 @@
+/* ============================================ */
+/* FEES RECORD SECTION - Warm Theme */
+/* ============================================ */
+.fees-section {
+    background: linear-gradient(135deg, #f5efe6 0%, #e8dcc8 100%);
+    padding: 80px 0;
+    position: relative;
+}
+
+.fees-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #6B5544 0%, #8B6B4A 100%);
+    color: #FFFFFF;
+    padding: 8px 25px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(139, 115, 85, 0.2);
+}
+
+.fees-title {
+    color: #4A3228;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.fees-title span {
+    color: #8B6B4A;
+}
+
+.fees-subtitle {
+    color: #6B5544;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Fee Card */
+.fee-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 40px rgba(139, 115, 85, 0.12);
+    border: 2px solid rgba(139, 107, 74, 0.1);
+    transition: all 0.4s ease;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.fee-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 60px rgba(139, 115, 85, 0.25);
+    border-color: #8B6B4A;
+}
+
+.fee-card.popular {
+    border: 3px solid #8B6B4A;
+    transform: scale(1.03);
+    box-shadow: 0 20px 50px rgba(139, 115, 85, 0.25);
+}
+
+.fee-card.popular:hover {
+    transform: scale(1.03) translateY(-10px);
+}
+
+/* Popular Badge */
+.popular-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #8B6B4A 0%, #A8825A 100%);
+    color: #FFFFFF;
+    padding: 8px 25px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(139, 115, 85, 0.35);
+    white-space: nowrap;
+}
+
+/* Fee Icon */
+.fee-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #8B6B4A 0%, #A8825A 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: #FFFFFF;
+    font-size: 1.8rem;
+    box-shadow: 0 10px 25px rgba(139, 115, 85, 0.3);
+}
+
+/* Fee Type */
+.fee-type {
+    color: #4A3228;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Fee Price */
+.fee-price {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.fee-price .currency {
+    color: #6B5544;
+    font-size: 1rem;
+    font-weight: 600;
+    vertical-align: top;
+}
+
+.fee-price .amount {
+    color: #8B6B4A;
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.fee-price .duration {
+    display: block;
+    color: #6B5544;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+/* Divider */
+.fee-divider {
+    border-top: 2px dashed rgba(139, 107, 74, 0.2);
+    margin: 20px 0;
+    opacity: 1;
+}
+
+/* Features List */
+.fee-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px;
+    flex-grow: 1;
+}
+
+.fee-features li {
+    color: #6B5544;
+    font-size: 0.95rem;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fee-features li i {
+    color: #8B6B4A;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* Fee Button */
+.fee-btn {
+    display: block;
+    background: linear-gradient(135deg, #8B6B4A 0%, #A8825A 100%);
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+    padding: 14px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 25px rgba(139, 115, 85, 0.25);
+}
+
+.fee-btn:hover {
+    background: linear-gradient(135deg, #6B5544 0%, #8B6B4A 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(139, 115, 85, 0.4);
+}
+
+/* Note */
+.fee-note {
+    background: rgba(139, 107, 74, 0.08);
+    border-left: 4px solid #8B6B4A;
+    padding: 18px 25px;
+    border-radius: 10px;
+    max-width: 700px;
+    margin: 50px auto 0;
+    color: #4A3228;
+    font-size: 0.95rem;
+}
+
+.fee-note i {
+    color: #8B6B4A;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .fees-title {
+        font-size: 2.2rem;
+    }
+
+    .fee-card.popular {
+        transform: scale(1);
+    }
+
+    .fee-card.popular:hover {
+        transform: translateY(-10px);
+    }
+}
+
+@media (max-width: 768px) {
+    .fees-section {
+        padding: 60px 0;
+    }
+
+    .fees-title {
+        font-size: 1.8rem;
+    }
+
+    .fee-card {
+        padding: 30px 22px;
+    }
+
+    .fee-price .amount {
+        font-size: 2.2rem;
+    }
+}
