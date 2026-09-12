@@ -38,17 +38,17 @@ class PageController extends Controller
 
     public function gallery()
     {
-        return view('Components.gallery'); 
+        return view('Pages.Hostel-gallery'); 
     }
 
     public function faq()
     {
-        return view('Pages.faq'); 
+        return view('Pages.Hostel-faqs'); 
     }
 
     public function rules()
     {
-        return view('Pages.rules'); 
+        return view('Pages.Hostel-rules'); 
     }
 
     // ==================================================

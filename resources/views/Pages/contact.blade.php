@@ -9,7 +9,6 @@
 <section class="contact-hero">
     <div class="hero-overlay"></div>
     <div class="hero-content text-center">
-        <span class="hero-badge">📬 CONTACT US</span>
         <h1 class="hero-title">Reach Out To Us</h1>
         <p class="hero-description">
             Have questions about our facilities or room availability?<br>
@@ -24,7 +23,7 @@
 </section>
 
 <!-- ============================================================ -->
-<!-- CONTACT INFO + FORM - ADDED ID                               -->
+<!-- CONTACT INFO + FORM                                          -->
 <!-- ============================================================ -->
 <section class="contact-main" id="contact-details">
     <div class="container">
@@ -129,7 +128,6 @@
                         </button>
                     </form>
 
-                    <!-- Success Message -->
                     @if(session('success'))
                         <div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">
                             <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
@@ -137,7 +135,6 @@
                         </div>
                     @endif
 
-                    <!-- Error Messages -->
                     @if($errors->any())
                         <div class="alert alert-danger mt-3">
                             <ul class="mb-0">
@@ -155,34 +152,11 @@
 </section>
 
 <!-- ============================================================ -->
-<!-- GOOGLE MAP                                                   -->
-<!-- ============================================================ -->
-<section class="map-section">
-    <div class="container-fluid p-0">
-        <div class="map-wrapper">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27173.3456789012!2d74.1234567!3d32.1234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzLCsDA3JzI0LjQiTiA3NMKwMDcnMjQuMCJF!5e0!3m2!1sen!2s!4v1234567890" 
-                allowfullscreen 
-                loading="lazy">
-            </iframe>
-            <div class="map-overlay">
-                <div class="map-overlay-content">
-                    <i class="bi bi-geo-alt-fill"></i>
-                    <h4>Find Us Here</h4>
-                    <p>Madina Masjid Rd, Block B, Satellite Town, Gujranwala</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================================ -->
-<!-- FAQ SECTION                                                  -->
+<!-- FAQ SECTION  ← AB YEH PEHLE AAYEGA                          -->
 <!-- ============================================================ -->
 <section class="faq-section">
     <div class="container">
         <div class="text-center mb-5">
-            <span class="faq-badge">❓ FAQ</span>
             <h2 class="faq-heading">Frequently Asked Questions</h2>
             <p class="faq-subtext">Find answers to common questions about GCW Hostel</p>
         </div>
@@ -227,6 +201,28 @@
                     <div class="faq-answer">
                         <p>Yes! We have <strong>round-the-clock security</strong>, <strong>CCTV surveillance</strong>, and <strong>dedicated female staff</strong>.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- GOOGLE MAP  ← AB YEH LAST MEIN AAYEGA                       -->
+<!-- ============================================================ -->
+<section class="map-section">
+    <div class="container-fluid p-0">
+        <div class="map-wrapper">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27173.3456789012!2d74.1234567!3d32.1234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzLCsDA3JzI0LjQiTiA3NMKwMDcnMjQuMCJF!5e0!3m2!1sen!2s!4v1234567890" 
+                allowfullscreen 
+                loading="lazy">
+            </iframe>
+            <div class="map-overlay">
+                <div class="map-overlay-content">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <h4>Find Us Here</h4>
+                    <p>Madina Masjid Rd, Block B, Satellite Town, Gujranwala</p>
                 </div>
             </div>
         </div>

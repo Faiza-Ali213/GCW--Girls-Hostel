@@ -31,6 +31,6 @@
 <section id="gallery-section">
     @include('Component.gallery')
 </section>
-@include('Component.contact_detail')
+@include('Component.contact')
 
 @endsection

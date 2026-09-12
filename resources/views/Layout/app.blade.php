@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'GCW Hostel')</title>
+    <title>@yield('title', 'GCW Hostel Management')</title>
     
     <!-- Critical CSS to prevent flash - Load this first -->
     <style>
@@ -96,6 +96,31 @@
         }
         .nav-logo-img:hover {
             transform: scale(1.05);
+        }
+
+        /* --- BRAND TEXT STYLING (PROFESSIONAL) --- */
+        .brand-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+            margin-left: 8px;
+        }
+
+        .brand-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #4A3228;
+            letter-spacing: 0.5px;
+            line-height: 1.1;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            font-weight: 500;
+            color: #8B6B4A;
+            letter-spacing: 3px;
+            margin-top: 2px;
+            line-height: 1;
         }
 
         /* --- NAVIGATION LINKS --- */
@@ -197,7 +222,6 @@
             font-size: 1.5rem;
             color: #8B6B4A;
         }
-        /* Profile Avatar - Only for letters if no photo */
         .profile-avatar {
             width: 42px;
             height: 42px;
@@ -354,11 +378,9 @@
             color: #C49A6C;
         }
 
-        /* Footer logo - original colored logo (not white) */
         .footer-logo-img {
             width: 80px;
             height: auto;
-            /* Remove filter: brightness(0) invert(1) to keep original colors */
             filter: none;
         }
 
@@ -467,6 +489,13 @@
             .nav-logo-img {
                 width: 45px;
             }
+            .brand-title {
+                font-size: 18px;
+            }
+            .brand-subtitle {
+                font-size: 9px;
+                letter-spacing: 2px;
+            }
             .btn-pill {
                 padding: 8px 18px;
                 font-size: 13px;
@@ -479,8 +508,12 @@
             }
         }
         @media (max-width: 576px) {
-            .navbar-brand span {
-                display: none;
+            .brand-title {
+                font-size: 15px;
+            }
+            .brand-subtitle {
+                font-size: 8px;
+                letter-spacing: 2px;
             }
             .profile-btn {
                 width: 36px;
@@ -504,7 +537,10 @@
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
                 <img src="{{ asset('Assert/logo.png') }}" alt="Logo" class="nav-logo-img"> 
-                <span>GCW HOSTEL</span>
+                <span class="brand-text-wrapper">
+                    <span class="brand-title">GCW HOSTEL</span>
+                    <span class="brand-subtitle">Management</span>
+                </span>
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -531,7 +567,6 @@
                                 @if(Auth::user()->profile_photo)
                                     <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile">
                                 @else
-                                    <!-- Show user icon instead of alphabet -->
                                     <i class="bi bi-person-fill"></i>
                                 @endif
                             </button>
@@ -558,21 +593,18 @@
                                     $userRole = Auth::user()->role ?? 'user';
                                 @endphp
                                 
-                                <!-- Show Submit Complaint ONLY for regular users (not admin/warden/staff) -->
                                 @if(!in_array($userRole, ['admin', 'staff', 'warden']) && Route::has('complaint.registration'))
                                     <a href="{{ route('complaint.registration') }}" class="dropdown-item">
                                         <i class="bi bi-exclamation-triangle"></i> Submit Complaint
                                     </a>
                                 @endif
                                 
-                                <!-- Show Manage Complaints ONLY for admin/warden/staff -->
                                 @if(in_array($userRole, ['admin', 'staff', 'warden']) && Route::has('complaints.index'))
                                     <a href="{{ route('complaints.index') }}" class="dropdown-item">
                                         <i class="bi bi-list-check"></i> Manage Complaints
                                     </a>
                                 @endif
                                 
-                                <!-- Admin/Staff Dashboard -->
                                 @if(in_array($userRole, ['admin', 'staff', 'warden']))
                                     <div class="dropdown-divider"></div>
                                     @if(Route::has('dashboard'))
@@ -616,7 +648,6 @@
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <a href="{{ route('home') }}" class="footer-logo-text">
-                        <!-- Footer logo - original colored logo (not white) -->
                         <img src="{{ asset('Assert/logo.png') }}" alt="GCW" class="footer-logo-img"> 
                         GCW Hostel Management
                     </a>
@@ -678,7 +709,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Profile Dropdown Toggle Script -->
     <script>
         function toggleDropdown() {
             const dropdown = document.getElementById('profileDropdown');
@@ -687,7 +717,6 @@
             }
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', function(event) {
             const dropdown = document.getElementById('profileDropdown');
             const profileBtn = document.querySelector('.profile-btn');
@@ -697,14 +726,12 @@
             }
         });
 
-        // Close dropdown on ESC key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 document.getElementById('profileDropdown')?.classList.remove('show');
             }
         });
 
-        // Close dropdown when scrolling
         document.addEventListener('scroll', function() {
             document.getElementById('profileDropdown')?.classList.remove('show');
         });
