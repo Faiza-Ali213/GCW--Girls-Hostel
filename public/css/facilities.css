@@ -60,23 +60,45 @@
     font-size: 3rem;
     font-weight: 800;
     margin-bottom: 10px;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    background: none !important;
 }
 
+/* ======================================== */
+/* ✅ FIXED: Facilities Span - Underline Removed */
+/* ======================================== */
 .section-title span {
     color: #8B6B4A;
     position: relative;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    border-bottom: none !important;
+    background: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    padding-bottom: 0 !important;
 }
 
-.section-title span::after {
-    content: '';
-    position: absolute;
-    bottom: 5px;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(to right, #8B6B4A, #C49A6C);
-    border-radius: 10px;
-    opacity: 0.3;
+/* Pseudo elements killed - no underline */
+.section-title span::after,
+.section-title span::before {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    border: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.section-title::after,
+.section-title::before {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    border: none !important;
 }
 
 .section-subtitle {
@@ -110,7 +132,6 @@
     padding-bottom: 0;
 }
 
-/* Stagger Animation Delays */
 .stacked-card-wrapper:nth-child(1) {
     transition-delay: 0.1s;
 }
@@ -155,7 +176,7 @@
     box-shadow: 0 30px 80px rgba(139, 115, 85, 0.25);
 }
 
-/* Card Background Gradients - Warm Theme */
+/* Card Background Gradients */
 .facility-card-main.card-1 {
     background: linear-gradient(135deg, #4A3228 0%, #6B5544 50%, #8B6B4A 100%);
 }
@@ -324,7 +345,7 @@
 }
 
 /* ======================================== */
-/* ✅ CARD EXPLORE BUTTON - FULLY VISIBLE */
+/* CARD EXPLORE BUTTON */
 /* ======================================== */
 
 .card-explore-btn {
@@ -394,7 +415,7 @@
 }
 
 /* ======================================== */
-/* SEATING AREA - CUT NAHI HOGA */
+/* SEATING AREA */
 /* ======================================== */
 
 .seating-area-wrapper {
@@ -417,7 +438,6 @@
     overflow: visible !important;
 }
 
-/* Card ke andar agar Seating Area hai toh */
 .facility-card-main .seating-area-wrapper {
     position: relative;
     z-index: 4;
@@ -651,9 +671,13 @@
         color: #C49A6C;
     }
 
-    .section-title span::after {
-        background: linear-gradient(to right, #8B6B4A, #C49A6C);
-        opacity: 0.2;
+    /* Dark mode mein bhi underline killed */
+    .section-title span::after,
+    .section-title span::before {
+        content: none !important;
+        display: none !important;
+        background: none !important;
+        opacity: 0 !important;
     }
 
     .section-subtitle {

@@ -230,6 +230,5 @@
 
 @include('Component.History')
 @include('component.gallery')
-@include('Component.faq')
 
 @endsection

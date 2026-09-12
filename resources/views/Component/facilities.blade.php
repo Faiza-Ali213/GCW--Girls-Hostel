@@ -3,7 +3,7 @@
     <div class="container">
         <div class="section-intro text-center mb-5">
             <span class="hostel-tag">🏆 Hostel Life Insights</span>
-            <h2 class="section-title">Premium <span>Facilities</span></h2>
+            <h2 class="section-title">Premium <span style="text-decoration: none !important; border-bottom: none !important; background-image: none !important;">Facilities</span></h2>
             <p class="section-subtitle">Discover our top-notch amenities designed for your comfort and safety</p>
         </div>
 
@@ -63,7 +63,6 @@
                                 @endforeach
                             </div>
 
-                            <!-- ✅ Explore More Button - Now visible on all cards -->
                             <a href="#" class="card-explore-btn">
                                 Explore More <i class="fas fa-arrow-right"></i>
                             </a>

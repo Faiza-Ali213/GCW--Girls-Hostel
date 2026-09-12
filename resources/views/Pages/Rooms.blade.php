@@ -14,14 +14,14 @@
     <div class="container hero-content-wrapper">
         <div class="text-center text-white mb-5 reveal-hero">
             <h1 class="hero-title">Discover Your Perfect Space, <br>Compare & Book Your Stay</h1>
-            <p class="hero-subtitle">Premium living for students at Government Graduate College (W) Satellitetown Gujranwala.</p>
+            <p class="hero-subtitle">Premium living for students at Government Graduate College (W) Satellite town Gujranwala.</p>
         </div>
 
         <div class="booking-glass-bar reveal-hero-up">
             <div class="row align-items-center g-3">
                 <div class="col-md-3 border-end-custom">
                     <label class="bar-label">Location</label>
-                    <div class="bar-value"><i class="bi bi-geo-alt me-2"></i>Satellitetown, GRW</div>
+                    <div class="bar-value"><i class="bi bi-geo-alt me-2"></i>Satellite town, GRW</div>
                 </div>
                 <div class="col-md-3 border-end-custom">
                     <label class="bar-label">Sharing Type</label>
@@ -55,7 +55,7 @@
                         'name' => 'Classic Triple Sharing',
                         'desc' => 'The perfect balance of social life and personal space. Accommodates three students with individual wardrobes.',
                         'sharing' => '3 Persons Sharing',
-                        'image' => 'Assert/room4.jpeg',
+                        'image' => 'Assert/pic25.jpeg',
                         'icon' => 'bi-microsoft-teams'
                     ],
                     [
@@ -97,7 +97,5 @@
         </div>
     </div>
 </section>
-
-@include('Component.contact_detail')
 <script src="{{ asset('js/Rooms.js') }}"></script>
 @endsection
