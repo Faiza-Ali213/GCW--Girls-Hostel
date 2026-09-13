@@ -14,7 +14,6 @@
             Have questions about our facilities or room availability?<br>
             Our team is here to help you find your perfect home away from home.
         </p>
-        <!-- ✅ CLICKABLE SCROLL BUTTON -->
         <a href="#contact-details" class="hero-scroll" style="text-decoration: none; color: rgba(255,255,255,0.5); display: inline-block;">
             <span>SCROLL TO DETAILS</span>
             <i class="bi bi-chevron-down" style="display: block; font-size: 24px; margin-top: 8px;"></i>
@@ -69,11 +68,21 @@
                     <div class="social-media">
                         <h6>Follow Us</h6>
                         <div class="social-icons">
-                            <a href="#"><i class="bi bi-facebook"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                            <a href="#"><i class="bi bi-youtube"></i></a>
-                            <a href="#"><i class="bi bi-twitter"></i></a>
-                            <a href="#"><i class="bi bi-whatsapp"></i></a>
+                            <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+                            <a href="https://twitter.com/" target="_blank" rel="noopener" aria-label="Twitter">
+                                <i class="bi bi-twitter"></i>
+                            </a>
+                            <a href="https://wa.me/923157180041" target="_blank" rel="noopener" aria-label="WhatsApp">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
                         </div>
                     </div>
 
@@ -152,7 +161,7 @@
 </section>
 
 <!-- ============================================================ -->
-<!-- FAQ SECTION  ← AB YEH PEHLE AAYEGA                          -->
+<!-- FAQ SECTION                                                   -->
 <!-- ============================================================ -->
 <section class="faq-section">
     <div class="container">
@@ -208,7 +217,7 @@
 </section>
 
 <!-- ============================================================ -->
-<!-- GOOGLE MAP  ← AB YEH LAST MEIN AAYEGA                       -->
+<!-- GOOGLE MAP                                                    -->
 <!-- ============================================================ -->
 <section class="map-section">
     <div class="container-fluid p-0">
