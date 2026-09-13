@@ -6,7 +6,7 @@
 <section class="fees-section py-5" id="fees-section">
     <div class="container">
         <div class="text-center mb-5">
-            <span class="fees-badge">💰 Fee Structure</span>
+            <span class="fees-badge"> Fee Structure</span>
             <h2 class="fees-title">Hostel <span>Fees Record</span></h2>
             <p class="fees-subtitle">Transparent pricing with no hidden charges — choose the plan that suits you best.</p>
         </div>
