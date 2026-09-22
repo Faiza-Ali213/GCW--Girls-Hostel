@@ -238,7 +238,7 @@
 /* Role & Status Selectors */
 .option-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
 
@@ -598,19 +598,11 @@
                                         </label>
                                     </div>
                                     <div class="option-item">
-                                        <input type="radio" name="role" value="warden" id="roleWarden" class="option-radio" {{ old('role', $user->role) == 'warden' ? 'checked' : '' }}>
-                                        <label for="roleWarden" class="option-label">
-                                            <i class="bi bi-shield"></i>
-                                            <span class="option-name">Warden</span>
+                                        <input type="radio" name="role" value="clerk" id="roleClerk" class="option-radio" {{ old('role', $user->role) == 'clerk' ? 'checked' : '' }}>
+                                        <label for="roleClerk" class="option-label">
+                                            <i class="bi bi-person-badge"></i>
+                                            <span class="option-name">Clerk</span>
                                             <span class="option-desc">Manage operations</span>
-                                        </label>
-                                    </div>
-                                    <div class="option-item">
-                                        <input type="radio" name="role" value="user" id="roleUser" class="option-radio" {{ old('role', $user->role) == 'user' ? 'checked' : '' }}>
-                                        <label for="roleUser" class="option-label">
-                                            <i class="bi bi-person"></i>
-                                            <span class="option-name">User</span>
-                                            <span class="option-desc">Basic access</span>
                                         </label>
                                     </div>
                                 </div>
