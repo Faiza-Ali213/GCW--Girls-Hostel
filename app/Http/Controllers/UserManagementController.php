@@ -34,20 +34,22 @@ class UserManagementController extends Controller
         }
 
         $users = $query->orderBy('created_at', 'desc')->paginate(10);
-        
+
         // Get statistics
-        $totalUsers = User::count();
-        $activeUsers = User::active()->count();
+        $totalUsers   = User::count();
+        $activeUsers  = User::active()->count();
         $inactiveUsers = User::inactive()->count();
-        $adminUsers = User::admins()->count();
+        $adminUsers   = User::admins()->count();
+        $clerkUsers   = User::clerks()->count();
 
         // Fix: Use the correct view path
         return view('Pages.Admin.user-management', compact(
-            'users', 
-            'totalUsers', 
-            'activeUsers', 
+            'users',
+            'totalUsers',
+            'activeUsers',
             'inactiveUsers',
-            'adminUsers'
+            'adminUsers',
+            'clerkUsers'
         ));
     }
 
@@ -65,13 +67,13 @@ class UserManagementController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,warden,user',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:500',
-            'status' => 'required|in:active,inactive',
+            'role'     => 'required|in:admin,clerk',
+            'phone'    => 'nullable|string|max:20',
+            'address'  => 'nullable|string|max:500',
+            'status'   => 'required|in:active,inactive',
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -84,13 +86,13 @@ class UserManagementController extends Controller
         try {
             // Prepare user data
             $userData = [
-                'name' => $request->name,
-                'email' => $request->email,
+                'name'     => $request->name,
+                'email'    => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => $request->role,
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'status' => $request->status,
+                'role'     => $request->role,
+                'phone'    => $request->phone,
+                'address'  => $request->address,
+                'status'   => $request->status,
                 'email_verified_at' => now(), // Auto-verify email
             ];
 
@@ -146,10 +148,10 @@ class UserManagementController extends Controller
         $user = User::findOrFail($id);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)],
-            'role' => 'required|in:admin,warden,user',
-            'phone' => 'nullable|string|max:20',
+            'name'   => 'required|string|max:255',
+            'email'  => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)],
+            'role'   => 'required|in:admin,clerk',
+            'phone'  => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'status' => 'required|in:active,inactive',
         ]);
@@ -164,7 +166,7 @@ class UserManagementController extends Controller
 
         // Store old values for notification comparison
         $oldStatus = $user->status;
-        $oldRole = $user->role;
+        $oldRole   = $user->role;
 
         $user->update($validated);
 
@@ -189,11 +191,17 @@ class UserManagementController extends Controller
     {
         try {
             $user = User::findOrFail($id);
-            
+
             // Prevent deleting self
             if ($user->id === auth()->id()) {
                 return redirect()->route('users.index')
                                  ->with('error', 'You cannot delete your own account!');
+            }
+
+            // Prevent deleting admin users (extra safety)
+            if ($user->isAdmin()) {
+                return redirect()->route('users.index')
+                                 ->with('error', 'Administrator accounts cannot be deleted!');
             }
 
             $user->delete();
@@ -214,7 +222,7 @@ class UserManagementController extends Controller
     {
         try {
             $user = User::findOrFail($id);
-            
+
             $request->validate([
                 'status' => 'required|in:active,inactive'
             ]);
@@ -230,7 +238,7 @@ class UserManagementController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'User status updated successfully!',
-                    'status' => $user->status
+                    'status'  => $user->status
                 ]);
             }
 
@@ -244,7 +252,7 @@ class UserManagementController extends Controller
                     'message' => 'Failed to update status: ' . $e->getMessage()
                 ], 500);
             }
-            
+
             return redirect()->route('users.index')
                              ->with('error', 'Failed to update status: ' . $e->getMessage());
         }

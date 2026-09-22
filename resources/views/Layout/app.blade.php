@@ -588,24 +588,27 @@
                                     </a>
                                 @endif
                                 
-                                <!-- Complaint Options - Conditional based on role -->
+                                <!-- Complaint & Dashboard Options - Conditional based on role -->
                                 @php
                                     $userRole = Auth::user()->role ?? 'user';
                                 @endphp
                                 
-                                @if(!in_array($userRole, ['admin', 'staff', 'warden']) && Route::has('complaint.registration'))
+                                {{-- Sirf normal user ko Submit Complaint dikhao --}}
+                                @if($userRole === 'user' && Route::has('complaint.registration'))
                                     <a href="{{ route('complaint.registration') }}" class="dropdown-item">
                                         <i class="bi bi-exclamation-triangle"></i> Submit Complaint
                                     </a>
                                 @endif
                                 
-                                @if(in_array($userRole, ['admin', 'staff', 'warden']) && Route::has('complaints.index'))
+                                {{-- Admin aur Clerk ko Manage Complaints dikhao --}}
+                                @if(in_array($userRole, ['admin', 'clerk']) && Route::has('complaints.index'))
                                     <a href="{{ route('complaints.index') }}" class="dropdown-item">
                                         <i class="bi bi-list-check"></i> Manage Complaints
                                     </a>
                                 @endif
                                 
-                                @if(in_array($userRole, ['admin', 'staff', 'warden']))
+                                {{-- Admin aur Clerk ko Dashboard dikhao --}}
+                                @if(in_array($userRole, ['admin', 'clerk']))
                                     <div class="dropdown-divider"></div>
                                     @if(Route::has('dashboard'))
                                         <a href="{{ route('dashboard') }}" class="dropdown-item">

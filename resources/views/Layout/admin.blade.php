@@ -787,6 +787,10 @@
     <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+    @php
+        $isClerk = Auth::check() && Auth::user()->isClerk();
+    @endphp
+
     <!-- ========== SIDEBAR ========== -->
     <aside class="sidebar" id="sidebar">
         <!-- Logo -->
@@ -795,86 +799,100 @@
                 <img src="{{ asset('Assert/logo.png') }}" alt="GCW Hostel" class="logo-image">
                 <div>
                     <div class="logo-text">GCW<span>Hostel</span></div>
-                    <div class="logo-subtext">Admin Panel</div>
+                    <div class="logo-subtext">{{ $isClerk ? 'Clerk Panel' : 'Admin Panel' }}</div>
                 </div>
             </div>
         </div>
 
-        <!-- Navigation -->
-        <div class="nav-section">Main Menu</div>
-        <ul class="nav-list">
-            <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                <a href="{{ route('dashboard') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper"><i class="bi bi-grid-fill"></i></span>
-                    <span class="nav-text">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item {{ request()->routeIs('student-records') ? 'active' : '' }}">
-                <a href="{{ route('student-records') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper"><i class="bi bi-people-fill"></i></span>
-                    <span class="nav-text">Student Records</span>
-                </a>
-            </li>
-            <li class="nav-item {{ request()->routeIs('room_allocation') ? 'active' : '' }}">
-                <a href="{{ route('room_allocation') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper"><i class="bi bi-door-open-fill"></i></span>
-                    <span class="nav-text">Room Allocation</span>
-                </a>
-            </li>
-            <li class="nav-item {{ request()->routeIs('fee_record') ? 'active' : '' }}">
-                <a href="{{ route('fee_record') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper"><i class="bi bi-cash-stack"></i></span>
-                    <span class="nav-text">Fee Record</span>
-                </a>
-            </li>
-            <li class="nav-item {{ request()->routeIs('staff_records') ? 'active' : '' }}">
-                <a href="{{ route('staff_records') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper"><i class="bi bi-person-badge-fill"></i></span>
-                    <span class="nav-text">Staff Records</span>
-                </a>
-            </li>
-            <li class="nav-item {{ request()->routeIs('vistors_records') ? 'active' : '' }}">
-                <a href="{{ route('vistors_records') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper"><i class="bi bi-person-check-fill"></i></span>
-                    <span class="nav-text">Visitors</span>
-                </a>
-            </li>
-            <li class="nav-item {{ request()->routeIs('Complain_request') ? 'active' : '' }}">
-                <a href="{{ route('Complain_request') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper"><i class="bi bi-exclamation-triangle-fill"></i></span>
-                    <span class="nav-text">Complaints</span>
-                </a>
-            </li>
-        </ul>
+        @if($isClerk)
+            {{-- ============ CLERK SIDEBAR (Fee Record Only) ============ --}}
+            <div class="nav-section">Clerk Menu</div>
+            <ul class="nav-list">
+                <li class="nav-item {{ request()->routeIs('fee_record') ? 'active' : '' }}">
+                    <a href="{{ route('fee_record') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-cash-stack"></i></span>
+                        <span class="nav-text">Fee Record</span>
+                    </a>
+                </li>
+            </ul>
+        @else
+            {{-- ============ ADMIN SIDEBAR (Full Access) ============ --}}
+            <!-- Navigation -->
+            <div class="nav-section">Main Menu</div>
+            <ul class="nav-list">
+                <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-grid-fill"></i></span>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('student-records') ? 'active' : '' }}">
+                    <a href="{{ route('student-records') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-people-fill"></i></span>
+                        <span class="nav-text">Student Records</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('room_allocation') ? 'active' : '' }}">
+                    <a href="{{ route('room_allocation') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-door-open-fill"></i></span>
+                        <span class="nav-text">Room Allocation</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('fee_record') ? 'active' : '' }}">
+                    <a href="{{ route('fee_record') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-cash-stack"></i></span>
+                        <span class="nav-text">Fee Record</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('staff_records') ? 'active' : '' }}">
+                    <a href="{{ route('staff_records') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-person-badge-fill"></i></span>
+                        <span class="nav-text">Staff Records</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('vistors_records') ? 'active' : '' }}">
+                    <a href="{{ route('vistors_records') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-person-check-fill"></i></span>
+                        <span class="nav-text">Visitors</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('Complain_request') ? 'active' : '' }}">
+                    <a href="{{ route('Complain_request') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-exclamation-triangle-fill"></i></span>
+                        <span class="nav-text">Complaints</span>
+                    </a>
+                </li>
+            </ul>
 
-        <!-- Settings Section -->
-        <div class="nav-section">System</div>
-        <ul class="nav-list">
-            <!-- Notification Page Link -->
-            <li class="nav-item {{ request()->routeIs('notification') || request()->routeIs('notifications.index') ? 'active' : '' }}">
-                <a href="{{ route('notification') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper"><i class="bi bi-bell-fill"></i></span>
-                    <span class="nav-text">Notifications</span>
-                    @if($unreadCount > 0)
-                        <span class="nav-badge">{{ $unreadCount }}</span>
-                    @endif
-                </a>
-            </li>
-            <li class="nav-item {{ request()->routeIs('users.index') || request()->routeIs('users.create') || request()->routeIs('users.edit') || request()->routeIs('users.show') ? 'active' : '' }}">
-                <a href="{{ route('users.index') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper">
-                        <i class="bi bi-people"></i>
-                    </span>
-                    <span class="nav-text">User Management</span>
-                </a>
-            </li>
-            <li class="nav-item {{ request()->routeIs('settings') ? 'active' : '' }}">
-                <a href="{{ route('settings') }}" class="nav-link-custom">
-                    <span class="nav-icon-wrapper"><i class="bi bi-gear-fill"></i></span>
-                    <span class="nav-text">Settings</span>
-                </a>
-            </li>
-        </ul>
+            <!-- Settings Section -->
+            <div class="nav-section">System</div>
+            <ul class="nav-list">
+                <!-- Notification Page Link -->
+                <li class="nav-item {{ request()->routeIs('notification') || request()->routeIs('notifications.index') ? 'active' : '' }}">
+                    <a href="{{ route('notification') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-bell-fill"></i></span>
+                        <span class="nav-text">Notifications</span>
+                        @if($unreadCount > 0)
+                            <span class="nav-badge">{{ $unreadCount }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('users.index') || request()->routeIs('users.create') || request()->routeIs('users.edit') || request()->routeIs('users.show') ? 'active' : '' }}">
+                    <a href="{{ route('users.index') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper">
+                            <i class="bi bi-people"></i>
+                        </span>
+                        <span class="nav-text">User Management</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ request()->routeIs('settings') ? 'active' : '' }}">
+                    <a href="{{ route('settings') }}" class="nav-link-custom">
+                        <span class="nav-icon-wrapper"><i class="bi bi-gear-fill"></i></span>
+                        <span class="nav-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        @endif
 
         <!-- Footer -->
         <div class="sidebar-footer">
@@ -958,7 +976,7 @@
                          alt="Profile" class="profile-avatar">
                     <div class="profile-info">
                         <p class="name">{{ Auth::user()->name ?? 'Admin User' }}</p>
-                        <p class="role">{{ Auth::user()->role ?? 'Administrator' }}</p>
+                        <p class="role">{{ Auth::user()->getRoleName() ?? 'Administrator' }}</p>
                     </div>
                     <i class="bi bi-chevron-down" style="font-size: 12px; color: #94A3B8;"></i>
                 </button>

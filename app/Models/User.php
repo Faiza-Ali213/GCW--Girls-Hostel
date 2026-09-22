@@ -55,8 +55,7 @@ class User extends Authenticatable
      * Role Constants
      */
     const ROLE_ADMIN = 'admin';
-    const ROLE_WARDEN = 'warden';
-    const ROLE_USER = 'user';
+    const ROLE_CLERK = 'clerk';
 
     /**
      * Status Constants
@@ -71,8 +70,7 @@ class User extends Authenticatable
     {
         return [
             self::ROLE_ADMIN => 'Administrator',
-            self::ROLE_WARDEN => 'Warden',
-            self::ROLE_USER => 'User',
+            self::ROLE_CLERK => 'Clerk',
         ];
     }
 
@@ -96,19 +94,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user is warden
+     * Check if user is clerk
      */
-    public function isWarden(): bool
+    public function isClerk(): bool
     {
-        return $this->role === self::ROLE_WARDEN;
-    }
-
-    /**
-     * Check if user is regular user
-     */
-    public function isUser(): bool
-    {
-        return $this->role === self::ROLE_USER;
+        return $this->role === self::ROLE_CLERK;
     }
 
     /**
@@ -134,8 +124,7 @@ class User extends Authenticatable
     {
         return match($this->role) {
             self::ROLE_ADMIN => 'danger',
-            self::ROLE_WARDEN => 'warning',
-            self::ROLE_USER => 'info',
+            self::ROLE_CLERK => 'warning',
             default => 'secondary',
         };
     }
@@ -186,8 +175,7 @@ class User extends Authenticatable
     {
         return match($this->role) {
             self::ROLE_ADMIN => '6C63FF',
-            self::ROLE_WARDEN => 'FF6B6B',
-            self::ROLE_USER => '4CAF50',
+            self::ROLE_CLERK => 'FF6B6B',
             default => '6C757D',
         };
     }
@@ -217,19 +205,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Scope for warden users
+     * Scope for clerk users
      */
-    public function scopeWardens($query)
+    public function scopeClerks($query)
     {
-        return $query->where('role', self::ROLE_WARDEN);
-    }
-
-    /**
-     * Scope for regular users
-     */
-    public function scopeRegularUsers($query)
-    {
-        return $query->where('role', self::ROLE_USER);
+        return $query->where('role', self::ROLE_CLERK);
     }
 
     /**
@@ -370,8 +350,7 @@ class User extends Authenticatable
             'active' => self::active()->count(),
             'inactive' => self::inactive()->count(),
             'admins' => self::admins()->count(),
-            'wardens' => self::wardens()->count(),
-            'users' => self::regularUsers()->count(),
+            'clerks' => self::clerks()->count(),
         ];
     }
 
@@ -388,7 +367,7 @@ class User extends Authenticatable
                 $user->status = self::STATUS_ACTIVE;
             }
             if (empty($user->role)) {
-                $user->role = self::ROLE_USER;
+                $user->role = self::ROLE_CLERK;
             }
         });
     }

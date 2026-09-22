@@ -7,36 +7,37 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminOrWarden
+class AdminOnly
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * Only allows users with the "admin" role.
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Check if user is authenticated
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        // Get the authenticated user
         $user = Auth::user();
 
-        // Allow only admin and clerk through
-        if ($user->isAdmin() || $user->isClerk()) {
+        // Only admins may pass
+        if ($user->isAdmin()) {
             return $next($request);
         }
 
-        // If not admin or clerk, log out and redirect to login with error
+        // If they are a clerk, send them to their own home page
+        if ($user->isClerk()) {
+            return redirect()->route('fee_record')
+                ->with('error', 'You do not have permission to access that page.');
+        }
+
+        // Unknown role — log out
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return redirect()->route('login')
-            ->with('error', 'You do not have permission to access this page.');
+            ->with('error', 'Unauthorized access.');
     }
 }
