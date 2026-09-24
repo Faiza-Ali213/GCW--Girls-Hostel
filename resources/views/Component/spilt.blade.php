@@ -109,7 +109,8 @@
                 <h2 class="split-title mb-0">Designed for the <span>Modern Student</span> & Professional</h2>
             </div>
             <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <a href="#" class="btn-all-rooms">Explore All <span class="arrow-icon">↗</span></a>
+                <!-- ✅ YAHAN CHANGE HUA HAI -->
+                <a href="{{ route('services') }}" class="btn-all-rooms">Explore All <span class="arrow-icon">↗</span></a>
             </div>
         </div>
 

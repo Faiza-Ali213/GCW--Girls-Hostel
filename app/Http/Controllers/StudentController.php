@@ -51,7 +51,8 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // Step 1: Validation
+        $validator = Validator::make($request->all(), [
             'student_name' => 'required|string|max:255',
             'father_name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
@@ -72,63 +73,81 @@ class StudentController extends Controller
             'profile_picture' => 'nullable|image|max:2048'
         ]);
 
-        // Handle profile picture upload
-        if ($request->hasFile('profile_picture')) {
-            $path = $request->file('profile_picture')->store('student_profiles', 'public');
-            $validated['profile_picture'] = $path;
+        // Step 2: If validation fails, redirect back with errors
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        // If room_id is provided, validate and assign room
-        if ($request->filled('room_id')) {
-            $room = Room::find($request->room_id);
-            
-            if ($room) {
-                // Check if room has available beds
-                if (!$room->hasAvailableBeds()) {
-                    return redirect()->back()
-                        ->with('error', 'Room ' . $room->room_number . ' is already full.')
-                        ->withInput();
-                }
-                
-                // Assign room to student
-                $validated['room_id'] = $room->id;
-                $validated['room_number'] = $room->room_number;
-                $validated['room_type'] = $room->room_type;
-                
-                // Increment room occupancy
-                $room->incrementOccupancy();
+        $validated = $validator->validated();
+
+        try {
+            // Step 3: Handle profile picture upload
+            if ($request->hasFile('profile_picture')) {
+                $path = $request->file('profile_picture')->store('student_profiles', 'public');
+                $validated['profile_picture'] = $path;
             }
-        } else {
-            // If room_number is provided but room_id is not, validate and find room
-            if ($request->filled('room_number')) {
-                $room = Room::where('room_number', $request->room_number)->first();
-                
-                if (!$room) {
-                    return redirect()->back()
-                        ->with('error', 'Room number ' . $request->room_number . ' does not exist in the system.')
-                        ->withInput();
+
+            // Step 4: Room validation and assignment
+            if ($request->filled('room_id')) {
+                $room = Room::find($request->room_id);
+
+                if ($room) {
+                    // Check if room has available beds
+                    if (!$room->hasAvailableBeds()) {
+                        return redirect()->back()
+                            ->with('error', 'Room ' . $room->room_number . ' is already full.')
+                            ->withInput();
+                    }
+
+                    // Assign room to student
+                    $validated['room_id'] = $room->id;
+                    $validated['room_number'] = $room->room_number;
+                    $validated['room_type'] = $room->room_type;
+
+                    // Increment room occupancy
+                    $room->incrementOccupancy();
                 }
-                
-                // Check if room has available beds
-                if (!$room->hasAvailableBeds()) {
-                    return redirect()->back()
-                        ->with('error', 'Room ' . $request->room_number . ' is already full.')
-                        ->withInput();
+            } else {
+                // If room_number is provided but room_id is not, find room by number
+                if ($request->filled('room_number')) {
+                    $room = Room::where('room_number', $request->room_number)->first();
+
+                    if (!$room) {
+                        return redirect()->back()
+                            ->with('error', 'Room number ' . $request->room_number . ' does not exist in the system.')
+                            ->withInput();
+                    }
+
+                    // Check if room has available beds
+                    if (!$room->hasAvailableBeds()) {
+                        return redirect()->back()
+                            ->with('error', 'Room ' . $request->room_number . ' is already full.')
+                            ->withInput();
+                    }
+
+                    // Assign room to student
+                    $validated['room_id'] = $room->id;
+                    $validated['room_type'] = $room->room_type;
+
+                    // Increment room occupancy
+                    $room->incrementOccupancy();
                 }
-                
-                // Assign room to student
-                $validated['room_id'] = $room->id;
-                $validated['room_type'] = $room->room_type;
-                
-                // Increment room occupancy
-                $room->incrementOccupancy();
             }
+
+            // Step 5: Create student
+            Student::create($validated);
+
+            return redirect()->route('student-records')
+                ->with('success', 'Student added successfully! ✅');
+
+        } catch (\Exception $e) {
+            // Step 6: Handle database errors
+            return redirect()->back()
+                ->with('error', 'Failed to add student: ' . $e->getMessage())
+                ->withInput();
         }
-
-        Student::create($validated);
-
-        return redirect()->route('student-records')
-                         ->with('success', 'Student added successfully!');
     }
 
     /**
@@ -357,7 +376,6 @@ class StudentController extends Controller
     public function export()
     {
         $students = Student::all();
-        // Implement CSV export logic
         return redirect()->back()->with('success', 'Export started!');
     }
 
@@ -369,31 +387,31 @@ class StudentController extends Controller
         $students = Student::byRoom($roomNumber)->get();
         return response()->json($students);
     }
+
     /**
- * Search students for visitor form (AJAX).
- */
-public function searchStudents(Request $request)
-{
-    $query = $request->get('q');
-    
-    if (empty($query)) {
+     * Search students for visitor form (AJAX).
+     */
+    public function searchStudents(Request $request)
+    {
+        $query = $request->get('q');
+        
+        if (empty($query)) {
+            return response()->json([
+                'success' => true,
+                'data' => []
+            ]);
+        }
+        
+        $students = Student::where('student_name', 'LIKE', "%{$query}%")
+                           ->orWhere('cnic_number', 'LIKE', "%{$query}%")
+                           ->orWhere('phone_number', 'LIKE', "%{$query}%")
+                           ->orWhere('father_name', 'LIKE', "%{$query}%")
+                           ->limit(10)
+                           ->get(['id', 'student_name', 'father_name', 'room_number', 'phone_number', 'cnic_number']);
+        
         return response()->json([
             'success' => true,
-            'data' => []
+            'data' => $students
         ]);
     }
-    
-    $students = Student::where('student_name', 'LIKE', "%{$query}%")
-                       ->orWhere('cnic_number', 'LIKE', "%{$query}%")
-                       ->orWhere('phone_number', 'LIKE', "%{$query}%")
-                       ->orWhere('father_name', 'LIKE', "%{$query}%")
-                       ->limit(10)
-                       ->get(['id', 'student_name', 'father_name', 'room_number', 'phone_number', 'cnic_number']);
-    
-    return response()->json([
-        'success' => true,
-        'data' => $students
-    ]);
-}
-
 }

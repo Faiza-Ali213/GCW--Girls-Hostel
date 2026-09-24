@@ -12,6 +12,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\DashboardController;   // ✅ ADDED
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/forgot-password', function () {
-    return view('auth.forgot-password');
+    return view('Pages.Auth.forgot-password'); // ✅ CHANGED: auth -> Pages.Auth
 })->name('password.request');
 
 Route::post('/forgot-password', function () {
@@ -28,7 +29,7 @@ Route::post('/forgot-password', function () {
 })->name('password.email');
 
 Route::get('/reset-password/{token}', function ($token) {
-    return view('auth.reset-password', ['token' => $token]);
+    return view('Pages.Auth.reset-password', ['token' => $token]); // ✅ CHANGED: auth -> Pages.Auth
 })->name('password.reset');
 
 Route::post('/reset-password', function () {
@@ -41,27 +42,20 @@ Route::post('/reset-password', function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
-    // Show login page
     Route::get('/login', [AuthenticationController::class, 'showLoginForm'])->name('login');
-    // Handle login form submission
     Route::post('/login', [AuthenticationController::class, 'login'])->name('login.submit');
-    
-    // Show signup page
     Route::get('/signup', [AuthenticationController::class, 'showSignupForm'])->name('signup');
-    // Handle signup form submission
     Route::post('/signup', [AuthenticationController::class, 'signup'])->name('signup.submit');
 });
 
-// Register submit route (for the signup form)
 Route::post('/register', [AuthenticationController::class, 'signup'])->name('register.submit');
 
 // Authenticated routes (require login)
 Route::middleware('auth')->group(function () {
-    // Logout
     Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
     
     // ============================================
-    // Profile Management Routes (Accessible by all users)
+    // Profile Management Routes
     // ============================================
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -69,7 +63,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     Route::post('/profile/upload-photo', [ProfileController::class, 'uploadPhoto'])->name('profile.upload-photo');
     
-    // Bookings route (for the navbar)
     Route::get('/bookings', function () {
         return view('Pages.bookings');
     })->name('bookings');
@@ -78,8 +71,9 @@ Route::middleware('auth')->group(function () {
     // Admin & Warden Protected Routes
     // ============================================
     Route::middleware(\App\Http\Middleware\AdminOrWarden::class)->group(function () {
-        // Dashboard
-        Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
+        
+        // ✅ Dashboard (Dynamic with real stats)
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // ============================================
         // User Management Routes (Full CRUD)
@@ -110,7 +104,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/by-room/{roomNumber}', [StudentController::class, 'getByRoom'])->name('by-room');
         });
 
-        // Student Records routes (aliases)
         Route::get('/student-records', [StudentController::class, 'index'])->name('student-records');
         Route::get('/student-records/create', [StudentController::class, 'create'])->name('student-records.create');
         Route::post('/student-records', [StudentController::class, 'store'])->name('student-records.store');
@@ -119,7 +112,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/student-records/{id}', [StudentController::class, 'update'])->name('student-records.update');
         Route::delete('/student-records/{id}', [StudentController::class, 'destroy'])->name('student-records.destroy');
         
-        // AJAX route for getting rooms by type (for add student page)
         Route::get('/student/get-rooms-by-type', [StudentController::class, 'getRoomsByType'])->name('student.getRoomsByType');
         Route::get('/student/validate-room', [StudentController::class, 'validateRoom'])->name('student.validateRoom');
         Route::get('/student/search', [StudentController::class, 'searchStudents'])->name('student.search');
@@ -210,7 +202,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/details/{id}', [RoomController::class, 'getRoomDetails'])->name('details');
         });
 
-        // Room Management aliases
         Route::get('/room_allocation', [RoomController::class, 'index'])->name('room_allocation');
         Route::get('/room-record', [RoomController::class, 'index'])->name('room-record');
 
@@ -228,13 +219,11 @@ Route::middleware('auth')->group(function () {
             Route::patch('/{id}/status', [FeeRecordController::class, 'updateStatus'])->name('update-status');
             Route::get('/summary', [FeeRecordController::class, 'getSummary'])->name('summary');
             
-            // Fee Payment Routes
             Route::get('/{id}/pay', [FeeRecordController::class, 'pay'])->name('pay');
             Route::post('/{id}/process-payment', [FeeRecordController::class, 'processPayment'])->name('process-payment');
             Route::get('/{id}/receipt', [FeeRecordController::class, 'receipt'])->name('receipt');
         });
 
-        // Fee Record aliases
         Route::get('/fee_record', [FeeRecordController::class, 'index'])->name('fee_record');
         Route::get('/fee-records', [FeeRecordController::class, 'index'])->name('fee-records.index');
         Route::get('/fee-record-list', [FeeRecordController::class, 'index'])->name('fee-record-list');
@@ -260,7 +249,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/latest', [NotificationController::class, 'getLatest'])->name('latest');
         });
 
-        // Notification aliases
         Route::get('/Notification', [NotificationController::class, 'index'])->name('Notification');
         Route::get('/notification', [NotificationController::class, 'index'])->name('notification');
         Route::get('/notification-list', [NotificationController::class, 'index'])->name('notification-list');
@@ -281,7 +269,6 @@ Route::middleware('auth')->group(function () {
     
     // ============================================
     // Complaint Registration (Public - For Users)
-    // MUST be outside Admin middleware so users can access
     // ============================================
     Route::get('/complaint-registration', [ComplaintController::class, 'create'])->name('complaint.registration');
     Route::post('/complaint-registration', [ComplaintController::class, 'store'])->name('complaint.store');
@@ -303,11 +290,10 @@ Route::get('/rules', [PageController::class, 'rules'])->name('rules');
 Route::get('/booking', [PageController::class, 'booking'])->name('booking');
 
 // ============================================================
-// ✅ CONTACT FORM POST ROUTE (ADDED AT THE BOTTOM)
+// ✅ CONTACT FORM POST ROUTE
 // ============================================================
 Route::post('/contact', function (Illuminate\Http\Request $request) {
     
-    // Validate the form data
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
@@ -315,8 +301,6 @@ Route::post('/contact', function (Illuminate\Http\Request $request) {
         'message' => 'required|string|min:10',
     ]);
 
-    // ✅ Process your data here
-    // For now, just return success
     return back()->with('success', '✅ Your message has been sent successfully!');
     
 })->name('contact.submit');

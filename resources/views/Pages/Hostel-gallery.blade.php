@@ -20,7 +20,7 @@
 </section>
 
 <!-- ========================================== -->
-<!-- GALLERY SECTION (AAPKA PURANA CODE) -->
+<!--  YH GALLERY SECTION (KA PURANA CODE HY) -->
 <!-- ========================================== -->
 <section class="gallery-section" id="gallery-trigger">
     <div class="container">

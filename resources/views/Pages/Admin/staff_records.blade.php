@@ -68,6 +68,7 @@
                         <th>Name</th>
                         <th>Role</th>
                         <th>Phone</th>
+                        <th>CNIC</th>                       {{-- ✅ CNIC column added --}}
                         <th>Duty / Shift</th>
                         <th>Status</th>
                         <th class="text-center">Action</th>
@@ -95,6 +96,7 @@
                         </td>
                         <td><span class="role-badge">{{ $member->role }}</span></td>
                         <td>{{ $member->phone }}</td>
+                        <td>{{ $member->cnic ?? 'N/A' }}</td>    {{-- ✅ CNIC value added --}}
                         <td>{{ $member->duty_shift ?? 'N/A' }}</td>
                         <td>
                             <span class="status-badge status-{{ $member->status }}">
@@ -122,7 +124,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">                           {{-- ✅ 7 se 8 kiya --}}
                             <div class="empty-state">
                                 <i class="bi bi-people"></i>
                                 <h5>No Staff Members Found</h5>

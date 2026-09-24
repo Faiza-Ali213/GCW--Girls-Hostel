@@ -66,15 +66,17 @@ class AuthenticationController extends Controller
      */
     protected function redirectBasedOnRole($user)
     {
+        // ✅ Admin → Dashboard
         if ($user->isAdmin()) {
             return redirect()->route('dashboard');
         }
 
+        // ✅ Clerk → Fee Record page
         if ($user->isClerk()) {
             return redirect()->route('fee_record');
         }
 
-        // Fallback
+        // ✅ Student / Normal User → Home page (no dashboard access)
         return redirect('/');
     }
 
@@ -99,17 +101,19 @@ class AuthenticationController extends Controller
                 ->withInput();
         }
 
+        // ✅ Create user with 'user' role (Student / Normal User)
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role'     => User::ROLE_CLERK,
+            'role'     => User::ROLE_USER,          // ✅ CHANGED: 'user' instead of 'clerk'
             'status'   => User::STATUS_ACTIVE,
         ]);
 
         Auth::login($user);
 
-        return redirect()->route('fee_record')
+        // ✅ Redirect based on role (Student → Home page)
+        return $this->redirectBasedOnRole($user)
             ->with('success', 'Account created successfully! Welcome to GCW Hostel.');
     }
 

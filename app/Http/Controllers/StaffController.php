@@ -52,6 +52,7 @@ class StaffController extends Controller
             'name' => 'required|string|max:255',
             'role' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
+            'cnic' => 'nullable|string|max:15',              // ✅ ADDED
             'duty_shift' => 'required|string|max:255',
             'email' => 'nullable|email|max:255|unique:staff',
             'address' => 'nullable|string',
@@ -108,6 +109,7 @@ class StaffController extends Controller
             'name' => 'sometimes|required|string|max:255',
             'role' => 'sometimes|required|string|max:255',
             'phone' => 'sometimes|required|string|max:20',
+            'cnic' => 'nullable|string|max:15',              // ✅ ADDED
             'duty_shift' => 'sometimes|required|string|max:255',
             'email' => 'nullable|email|max:255|unique:staff,email,' . $id,
             'address' => 'nullable|string',

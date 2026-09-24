@@ -39,7 +39,8 @@ class NotificationController extends Controller
         // Get total count before pagination
         $totalCount = $query->count();
         
-        $notifications = $query->latest()->paginate(15);
+        // ✅ CHANGED: 15 → 5 (5 notifications per page)
+        $notifications = $query->latest()->paginate(5);
         
         // Count unread for badge
         $unreadCount = Notification::unread()
@@ -82,7 +83,6 @@ class NotificationController extends Controller
     // Show single notification
     public function show(Notification $notification)
     {
-        // Mark as read when viewed
         if (!$notification->is_read) {
             $notification->markAsRead();
         }
@@ -223,9 +223,6 @@ class NotificationController extends Controller
     // USER NOTIFICATIONS
     // ============================================
 
-    /**
-     * Create notification for new user registration
-     */
     public static function notifyUserCreated(User $user)
     {
         $roleLabels = [
@@ -246,9 +243,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Create notification for user status change
-     */
     public static function notifyUserStatusChanged(User $user)
     {
         $statusLabel = ucfirst($user->status);
@@ -264,9 +258,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Create notification for user role change
-     */
     public static function notifyUserRoleChanged(User $user)
     {
         $roleLabels = [
@@ -291,9 +282,6 @@ class NotificationController extends Controller
     // VISITOR NOTIFICATIONS
     // ============================================
 
-    /**
-     * Create notification for new visitor
-     */
     public static function notifyVisitorAdded(Visitor $visitor)
     {
         $message = "New visitor '{$visitor->visitor_name}' has checked in";
@@ -317,9 +305,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Create notification for visitor checkout
-     */
     public static function notifyVisitorCheckedOut(Visitor $visitor)
     {
         $duration = 'N/A';
@@ -344,9 +329,6 @@ class NotificationController extends Controller
     // COMPLAINT NOTIFICATIONS
     // ============================================
 
-    /**
-     * Create notification for new complaint
-     */
     public static function notifyComplaintSubmitted(Complaint $complaint)
     {
         $studentName = $complaint->student ? $complaint->student->name : $complaint->student_name;
@@ -368,9 +350,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Create notification for complaint status update
-     */
     public static function notifyComplaintUpdated(Complaint $complaint)
     {
         $statusLabels = [
@@ -409,9 +388,6 @@ class NotificationController extends Controller
     // FEE RECORD NOTIFICATIONS
     // ============================================
 
-    /**
-     * Create notification for new fee record
-     */
     public static function notifyFeeRecordCreated(FeeRecord $feeRecord)
     {
         $statusLabels = [
@@ -438,9 +414,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Create notification for fee status update
-     */
     public static function notifyFeeStatusUpdated(FeeRecord $feeRecord, $oldStatus = null)
     {
         $statusLabels = [
@@ -485,9 +458,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Create notification for fee payment received
-     */
     public static function notifyFeePaymentReceived(FeeRecord $feeRecord, $amount)
     {
         $statusLabels = [
@@ -518,9 +488,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Create notification for overdue fee
-     */
     public static function notifyFeeOverdue(FeeRecord $feeRecord)
     {
         $daysOverdue = $feeRecord->created_at ? $feeRecord->created_at->diffInDays(now()) : 0;
@@ -536,9 +503,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Create notification for bulk fee sync
-     */
     public static function notifyFeeSyncCompleted($count)
     {
         Notification::create([
@@ -556,9 +520,6 @@ class NotificationController extends Controller
     // GENERIC NOTIFICATION HELPER
     // ============================================
 
-    /**
-     * Create a custom notification
-     */
     public static function createNotification($title, $message, $type = 'info', $icon = null, $link = null, $userId = null, $expiresAt = null)
     {
         return Notification::create([

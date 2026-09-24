@@ -12,8 +12,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -29,8 +27,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -39,54 +35,60 @@ class User extends Authenticatable
 
     /**
      * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
      */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'last_login' => 'datetime',
+            'password'          => 'hashed',
+            'last_login'        => 'datetime',
         ];
     }
 
-    /**
-     * Role Constants
-     */
+    // ============================================
+    // ROLE CONSTANTS
+    // ============================================
+
     const ROLE_ADMIN = 'admin';
     const ROLE_CLERK = 'clerk';
+    const ROLE_USER  = 'user';      // ✅ NEW: Normal / Student user
 
-    /**
-     * Status Constants
-     */
-    const STATUS_ACTIVE = 'active';
+    // ============================================
+    // STATUS CONSTANTS
+    // ============================================
+
+    const STATUS_ACTIVE   = 'active';
     const STATUS_INACTIVE = 'inactive';
 
+    // ============================================
+    // ROLE HELPERS
+    // ============================================
+
     /**
-     * Get all available roles
+     * Get all available roles.
      */
     public static function getRoles(): array
     {
         return [
             self::ROLE_ADMIN => 'Administrator',
             self::ROLE_CLERK => 'Clerk',
+            self::ROLE_USER  => 'User',      // ✅ NEW
         ];
     }
 
     /**
-     * Get all available statuses
+     * Get all available statuses.
      */
     public static function getStatuses(): array
     {
         return [
-            self::STATUS_ACTIVE => 'Active',
+            self::STATUS_ACTIVE   => 'Active',
             self::STATUS_INACTIVE => 'Inactive',
         ];
     }
 
     /**
-     * Check if user is admin
+     * Check if user is admin.
      */
     public function isAdmin(): bool
     {
@@ -94,7 +96,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user is clerk
+     * Check if user is clerk.
      */
     public function isClerk(): bool
     {
@@ -102,7 +104,15 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user is active
+     * Check if user is normal user (student).
+     */
+    public function isUser(): bool
+    {
+        return $this->role === self::ROLE_USER;
+    }
+
+    /**
+     * Check if user is active.
      */
     public function isActive(): bool
     {
@@ -110,7 +120,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user is inactive
+     * Check if user is inactive.
      */
     public function isInactive(): bool
     {
@@ -118,19 +128,20 @@ class User extends Authenticatable
     }
 
     /**
-     * Get role badge color for UI
+     * Get role badge color for UI.
      */
     public function getRoleBadgeColor(): string
     {
         return match($this->role) {
             self::ROLE_ADMIN => 'danger',
             self::ROLE_CLERK => 'warning',
-            default => 'secondary',
+            self::ROLE_USER  => 'secondary',   // ✅ NEW
+            default          => 'secondary',
         };
     }
 
     /**
-     * Get status badge color for UI
+     * Get status badge color for UI.
      */
     public function getStatusBadgeColor(): string
     {
@@ -138,7 +149,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get formatted role name
+     * Get formatted role name.
      */
     public function getRoleName(): string
     {
@@ -146,228 +157,200 @@ class User extends Authenticatable
     }
 
     /**
-     * Get formatted status name
+     * Get formatted status name.
      */
     public function getStatusName(): string
     {
         return self::getStatuses()[$this->status] ?? ucfirst($this->status);
     }
 
-    /**
-     * Get user avatar URL
-     */
+    // ============================================
+    // AVATAR HELPERS
+    // ============================================
+
     public function getAvatarUrl(): string
     {
         if ($this->profile_photo) {
             return asset('storage/' . $this->profile_photo);
         }
-        
-        // Generate avatar from name using UI Avatars API
-        $name = urlencode($this->name);
+
+        $name       = urlencode($this->name);
         $background = $this->getAvatarBackground();
+
         return "https://ui-avatars.com/api/?name={$name}&background={$background}&color=fff&size=64";
     }
 
-    /**
-     * Get avatar background color based on role
-     */
     private function getAvatarBackground(): string
     {
         return match($this->role) {
             self::ROLE_ADMIN => '6C63FF',
             self::ROLE_CLERK => 'FF6B6B',
-            default => '6C757D',
+            self::ROLE_USER  => '6C757D',   // ✅ NEW: Gray for student
+            default          => '6C757D',
         };
     }
 
-    /**
-     * Scope for active users
-     */
-    public function scopeActive($query)
-    {
-        return $query->where('status', self::STATUS_ACTIVE);
-    }
-
-    /**
-     * Scope for inactive users
-     */
-    public function scopeInactive($query)
-    {
-        return $query->where('status', self::STATUS_INACTIVE);
-    }
-
-    /**
-     * Scope for admin users
-     */
-    public function scopeAdmins($query)
-    {
-        return $query->where('role', self::ROLE_ADMIN);
-    }
-
-    /**
-     * Scope for clerk users
-     */
-    public function scopeClerks($query)
-    {
-        return $query->where('role', self::ROLE_CLERK);
-    }
-
-    /**
-     * Scope for search
-     */
-    public function scopeSearch($query, $search)
-    {
-        return $query->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('email', 'LIKE', "%{$search}%")
-                    ->orWhere('phone', 'LIKE', "%{$search}%");
-    }
-
-    /**
-     * Update last login timestamp
-     */
-    public function updateLastLogin(): void
-    {
-        $this->update(['last_login' => now()]);
-    }
-
-    /**
-     * Check if user has specific role
-     */
-    public function hasRole(string $role): bool
-    {
-        return $this->role === $role;
-    }
-
-    /**
-     * Check if user has any of the given roles
-     */
-    public function hasAnyRole(array $roles): bool
-    {
-        return in_array($this->role, $roles);
-    }
-
-    /**
-     * Get the user's full name with role
-     */
-    public function getFullNameWithRole(): string
-    {
-        return $this->name . ' (' . $this->getRoleName() . ')';
-    }
-
-    /**
-     * Get formatted phone number
-     */
-    public function getFormattedPhone(): ?string
-    {
-        if (!$this->phone) {
-            return null;
-        }
-        
-        // Remove all non-numeric characters
-        $phone = preg_replace('/[^0-9]/', '', $this->phone);
-        
-        // Format based on length
-        if (strlen($phone) === 10) {
-            return '(' . substr($phone, 0, 3) . ') ' . substr($phone, 3, 3) . '-' . substr($phone, 6, 4);
-        }
-        
-        return $this->phone;
-    }
-
-    /**
-     * Check if the user is online (last login within 5 minutes)
-     */
-    public function isOnline(): bool
-    {
-        if (!$this->last_login) {
-            return false;
-        }
-        
-        return $this->last_login->diffInMinutes(now()) < 5;
-    }
-
-    /**
-     * Get human-readable last login
-     */
-    public function getLastLoginHumanReadable(): string
-    {
-        if (!$this->last_login) {
-            return 'Never';
-        }
-        
-        return $this->last_login->diffForHumans();
-    }
-
-    /**
-     * Get formatted last login
-     */
-    public function getFormattedLastLogin(): string
-    {
-        if (!$this->last_login) {
-            return 'Never';
-        }
-        
-        return $this->last_login->format('Y-m-d H:i A');
-    }
-
-    /**
-     * Check if user can be deleted
-     */
-    public function canBeDeleted(): bool
-    {
-        // Prevent deleting admin users or yourself
-        if ($this->isAdmin()) {
-            return false;
-        }
-        
-        // Prevent deleting yourself
-        if (auth()->id() === $this->id) {
-            return false;
-        }
-        
-        return true;
-    }
-
-    /**
-     * Get profile photo URL
-     */
     public function getProfilePhotoUrl(): string
     {
         if ($this->profile_photo && file_exists(storage_path('app/public/' . $this->profile_photo))) {
             return asset('storage/' . $this->profile_photo);
         }
-        
+
         return $this->getAvatarUrl();
     }
 
-    /**
-     * Get user statistics
-     */
+    // ============================================
+    // SCOPES
+    // ============================================
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('status', self::STATUS_INACTIVE);
+    }
+
+    public function scopeAdmins($query)
+    {
+        return $query->where('role', self::ROLE_ADMIN);
+    }
+
+    public function scopeClerks($query)
+    {
+        return $query->where('role', self::ROLE_CLERK);
+    }
+
+    public function scopeUsers($query)
+    {
+        return $query->where('role', self::ROLE_USER);   // ✅ NEW
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where(function ($q) use ($search) {
+            $q->where('name', 'LIKE', "%{$search}%")
+              ->orWhere('email', 'LIKE', "%{$search}%")
+              ->orWhere('phone', 'LIKE', "%{$search}%");
+        });
+    }
+
+    // ============================================
+    // LOGIN / SESSION HELPERS
+    // ============================================
+
+    public function updateLastLogin(): void
+    {
+        $this->update(['last_login' => now()]);
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
+
+    public function hasAnyRole(array $roles): bool
+    {
+        return in_array($this->role, $roles);
+    }
+
+    public function getFullNameWithRole(): string
+    {
+        return $this->name . ' (' . $this->getRoleName() . ')';
+    }
+
+    public function getFormattedPhone(): ?string
+    {
+        if (!$this->phone) {
+            return null;
+        }
+
+        $phone = preg_replace('/[^0-9]/', '', $this->phone);
+
+        if (strlen($phone) === 10) {
+            return '(' . substr($phone, 0, 3) . ') ' . substr($phone, 3, 3) . '-' . substr($phone, 6, 4);
+        }
+
+        return $this->phone;
+    }
+
+    public function isOnline(): bool
+    {
+        if (!$this->last_login) {
+            return false;
+        }
+
+        return $this->last_login->diffInMinutes(now()) < 5;
+    }
+
+    public function getLastLoginHumanReadable(): string
+    {
+        if (!$this->last_login) {
+            return 'Never';
+        }
+
+        return $this->last_login->diffForHumans();
+    }
+
+    public function getFormattedLastLogin(): string
+    {
+        if (!$this->last_login) {
+            return 'Never';
+        }
+
+        return $this->last_login->format('Y-m-d H:i A');
+    }
+
+    public function canBeDeleted(): bool
+    {
+        // Prevent deleting admin users
+        if ($this->isAdmin()) {
+            return false;
+        }
+
+        // Prevent deleting yourself
+        if (auth()->id() === $this->id) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // ============================================
+    // STATISTICS
+    // ============================================
+
     public static function getStatistics(): array
     {
         return [
-            'total' => self::count(),
-            'active' => self::active()->count(),
+            'total'    => self::count(),
+            'active'   => self::active()->count(),
             'inactive' => self::inactive()->count(),
-            'admins' => self::admins()->count(),
-            'clerks' => self::clerks()->count(),
+            'admins'   => self::admins()->count(),
+            'clerks'   => self::clerks()->count(),
+            'users'    => self::users()->count(),      // ✅ NEW
         ];
     }
 
-    /**
-     * Boot the model
-     */
+    // ============================================
+    // BOOT
+    // ============================================
+
     protected static function boot()
     {
         parent::boot();
-        
-        // Set default values when creating
+
+        // Set default values when creating a new user
         static::creating(function ($user) {
             if (empty($user->status)) {
                 $user->status = self::STATUS_ACTIVE;
             }
+
+            // ✅ Default role is 'user' for new signups
             if (empty($user->role)) {
-                $user->role = self::ROLE_CLERK;
+                $user->role = self::ROLE_USER;
             }
         });
     }

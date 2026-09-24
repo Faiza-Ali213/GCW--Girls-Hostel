@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-md-3 border-end-custom">
                     <label class="bar-label">Pricing</label>
-                    <div class="bar-value">Starting from Rs. 80,000<br>per Year</div>
+                    <div class="bar-value">Starting from Rs. 30,000<br>per Year</div>
                 </div>
                 <div class="col-md-3">
                     <a href="#room-list" class="btn-search-hero">Check Availability</a>
@@ -62,7 +62,7 @@
                         'name' => 'Economy Quad Room',
                         'desc' => 'A vibrant community-focused space for four students. Affordable luxury with spacious layouts.',
                         'sharing' => '4 Persons Sharing',
-                        'image' => 'Assert/pic1.jpeg',
+                        'image' => 'Assert/pic27.jpeg',
                         'icon' => 'bi-grid-3x3-gap-fill'
                     ]
                 ];

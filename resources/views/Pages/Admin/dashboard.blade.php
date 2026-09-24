@@ -13,7 +13,7 @@
                     <i class="bi bi-house-door"></i>
                 </div>
                 <span class="stat-label">Total Rooms</span>
-                <span class="stat-value">120</span>
+                <span class="stat-value">{{ $totalRooms ?? 0 }}</span>
             </div>
 
             <div class="pro-card">
@@ -21,7 +21,7 @@
                     <i class="bi bi-people"></i>
                 </div>
                 <span class="stat-label">Total Students</span>
-                <span class="stat-value">450</span>
+                <span class="stat-value">{{ $totalStudents ?? 0 }}</span>
             </div>
 
             <div class="pro-card">
@@ -29,7 +29,7 @@
                     <i class="bi bi-person-workspace"></i>
                 </div>
                 <span class="stat-label">Total Staff</span>
-                <span class="stat-value">25</span>
+                <span class="stat-value">{{ $totalStaff ?? 0 }}</span>
             </div>
         </div>
 
@@ -39,7 +39,7 @@
                     <i class="bi bi-bookmark-check"></i>
                 </div>
                 <span class="stat-label">Allocated Rooms</span>
-                <span class="stat-value">105</span>
+                <span class="stat-value">{{ $allocatedRooms ?? 0 }}</span>
             </div>
 
             <div class="pro-card">
@@ -47,7 +47,7 @@
                     <i class="bi bi-door-open"></i>
                 </div>
                 <span class="stat-label">Empty Rooms</span>
-                <span class="stat-value">15</span>
+                <span class="stat-value">{{ $emptyRooms ?? 0 }}</span>
             </div>
         </div>
     </div>

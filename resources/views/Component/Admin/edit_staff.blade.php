@@ -48,6 +48,18 @@
                             @enderror
                         </div>
 
+                        {{-- ✅ CNIC FIELD (NEW) --}}
+                        <div class="mb-3">
+                            <label for="cnic" class="form-label">CNIC</label>
+                            <input type="text" class="form-control @error('cnic') is-invalid @enderror" 
+                                   id="cnic" name="cnic" value="{{ old('cnic', $staff->cnic) }}" 
+                                   placeholder="e.g., 35202-1234567-1"
+                                   maxlength="15">
+                            @error('cnic')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="mb-3">
                             <label for="duty_shift" class="form-label">Duty / Shift *</label>
                             <select class="form-control @error('duty_shift') is-invalid @enderror" 
