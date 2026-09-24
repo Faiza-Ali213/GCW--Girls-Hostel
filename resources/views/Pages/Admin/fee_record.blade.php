@@ -68,9 +68,9 @@
     </select>
 </div>
 
-<!-- Fee Records Table -->
-<div class="modern-table">
-    <table class="table table-hover" id="feeTable">
+<!-- Fee Records Table - ✅ UPDATED FOR SCROLLING -->
+<div class="modern-table" style="overflow-x: auto; width: 100%;">
+    <table class="table table-hover" id="feeTable" style="min-width: 1100px;">
         <thead>
             <tr>
                 <th style="width:50px;">Sr.No</th>
@@ -121,27 +121,27 @@
                 </td>
                 <td class="text-center">
                     <div class="action-group">
-                        <!-- View Button - Always Visible -->
+                        <!-- View Button -->
                         <a href="{{ route('fee-record.show', $record->id) }}" class="action-btn view" title="View Details">
                             <i class="fas fa-eye"></i>
                         </a>
                         
-                        <!-- Edit Button - Always Visible -->
+                        <!-- Edit Button -->
                         <a href="{{ route('fee-record.edit', $record->id) }}" class="action-btn edit" title="Edit Record">
                             <i class="fas fa-edit"></i>
                         </a>
                         
                         @if($record->fee_status == 'paid')
-                            <!-- When PAID: Show Receipt Button (No Pay) -->
-                            <a href="{{ route('fee-record.receipt', $record->id) }}" class="action-btn view" title="View Receipt" style="background: #ECFDF5; border-color: #10B981;">
-                                <i class="fas fa-receipt" style="color: #10B981 !important;"></i>
+                            <!-- When PAID: Show Receipt Button -->
+                            <a href="{{ route('fee-record.receipt', $record->id) }}" class="action-btn receipt" title="View Receipt">
+                                <i class="fas fa-receipt"></i>
                             </a>
                         @elseif($record->fee_status == 'partial')
                             <!-- When PARTIAL: Show Pay and Receipt -->
                             <a href="{{ route('fee-record.pay', $record->id) }}" class="action-btn pay" title="Pay Fee">
                                 <i class="fas fa-hand-holding-usd"></i>
                             </a>
-                            <a href="{{ route('fee-record.receipt', $record->id) }}" class="action-btn view" title="View Receipt">
+                            <a href="{{ route('fee-record.receipt', $record->id) }}" class="action-btn receipt" title="View Receipt">
                                 <i class="fas fa-receipt"></i>
                             </a>
                         @else

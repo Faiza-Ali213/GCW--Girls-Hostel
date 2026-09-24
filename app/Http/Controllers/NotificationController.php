@@ -15,21 +15,21 @@ class NotificationController extends Controller
     // Display all notifications
     public function index(Request $request)
     {
+        // ✅ UPDATED: By default saari notifications (read + unread) show hongi
         $query = Notification::query()
-            ->when(!$request->show_all, function($q) {
-                return $q->where(function($sub) {
-                    $sub->where('is_global', true)
-                        ->orWhere('user_id', Auth::id());
-                });
+            ->where(function($q) {
+                $q->where('is_global', true)
+                  ->orWhere('user_id', Auth::id());
             })
             ->active();
 
-        // Filter by status
+        // Filter by status (sirf tab jab user khud filter kare)
         if ($request->status == 'unread') {
             $query->unread();
         } elseif ($request->status == 'read') {
             $query->read();
         }
+        // ✅ Agar koi filter nahi lagaya, toh saari (read + unread) show hongi
 
         // Filter by type
         if ($request->type && in_array($request->type, ['info', 'success', 'warning', 'error'])) {
@@ -39,7 +39,7 @@ class NotificationController extends Controller
         // Get total count before pagination
         $totalCount = $query->count();
         
-        // ✅ CHANGED: 15 → 5 (5 notifications per page)
+        // ✅ 5 notifications per page
         $notifications = $query->latest()->paginate(5);
         
         // Count unread for badge

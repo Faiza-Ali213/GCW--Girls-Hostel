@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class FeeRecordController extends Controller
 {
-    const DEFAULT_FEE_AMOUNT = 8500;
+    const DEFAULT_FEE_AMOUNT = 30000;
 
     /**
      * Display a listing of the fee records.
