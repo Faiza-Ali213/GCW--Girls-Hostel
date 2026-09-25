@@ -224,6 +224,78 @@
         color: #ffffff !important;
     }
 
+    .btn-search-complaint {
+        background: linear-gradient(135deg, #4F46E5 0%, #4338CA 100%);
+        color: #ffffff !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.25);
+        text-decoration: none;
+        white-space: nowrap;
+    }
+    .btn-search-complaint:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(79, 70, 229, 0.35);
+        color: #ffffff !important;
+    }
+
+    .btn-clear-complaint {
+        background: #f1f5f9;
+        color: #64748b;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+    .btn-clear-complaint:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+        text-decoration: none;
+    }
+
+    .search-input-complaint {
+        width: 100%;
+        padding: 12px 16px 12px 42px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+    .search-input-complaint:focus {
+        border-color: #4F46E5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+    }
+
+    .filter-select-complaint {
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        min-width: 150px;
+        cursor: pointer;
+        background: white;
+        outline: none;
+    }
+    .filter-select-complaint:focus {
+        border-color: #4F46E5;
+    }
+
     .avatar-circle {
         width: 34px;
         height: 34px;
@@ -316,6 +388,9 @@
         .status-selector { min-width: 100px; font-size: 0.65rem; }
         .top-action-bar { flex-direction: column; align-items: stretch; }
         .top-action-bar .btn-save-status { width: 100%; justify-content: center; }
+        .search-form-complaint { flex-direction: column; align-items: stretch; }
+        .btn-search-complaint, .btn-clear-complaint { width: 100%; justify-content: center; }
+        .filter-select-complaint { width: 100%; }
     }
 
     @media (max-width: 576px) {
@@ -393,7 +468,57 @@
     </div>
 </div>
 
-<!-- Top Action Bar with Save Button -->
+<!-- ============================================ -->
+<!-- ✅ SEARCH & FILTER BAR (NEW) -->
+<!-- ============================================ -->
+<div class="top-action-bar" style="margin-bottom: 15px;">
+    <form action="{{ route('complaint_management') }}" method="GET" 
+          class="search-form-complaint"
+          style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap; align-items: center;">
+        
+        <!-- Search Input -->
+        <div style="flex: 1; min-width: 250px; position: relative;">
+            <i class="fas fa-search" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+            <input type="text" 
+                   name="search" 
+                   class="search-input-complaint"
+                   placeholder="Search by title, student name or room..." 
+                   value="{{ request('search') }}"
+                   onkeypress="if(event.key === 'Enter'){ this.form.submit(); }">
+        </div>
+
+        <!-- Status Filter -->
+        <select name="status" class="filter-select-complaint" onchange="this.form.submit()">
+            <option value="">All Status</option>
+            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+            <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+            <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>Resolved</option>
+            <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+        </select>
+
+        <!-- Priority Filter -->
+        <select name="priority" class="filter-select-complaint" onchange="this.form.submit()">
+            <option value="">All Priority</option>
+            <option value="high" {{ request('priority') == 'high' ? 'selected' : '' }}>High</option>
+            <option value="medium" {{ request('priority') == 'medium' ? 'selected' : '' }}>Medium</option>
+            <option value="low" {{ request('priority') == 'low' ? 'selected' : '' }}>Low</option>
+        </select>
+
+        <!-- Search Button -->
+        <button type="submit" class="btn-search-complaint">
+            <i class="fas fa-search"></i> Search
+        </button>
+
+        <!-- Clear Button -->
+        @if(request('search') || request('status') || request('priority'))
+            <a href="{{ route('complaint_management') }}" class="btn-clear-complaint">
+                <i class="fas fa-times"></i> Clear
+            </a>
+        @endif
+    </form>
+</div>
+
+<!-- Top Action Bar with Save Button (Existing) -->
 <div class="top-action-bar">
     <div>
         <span style="font-weight: 600; color: #0b1a33;">

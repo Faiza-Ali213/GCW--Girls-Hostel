@@ -47,7 +47,7 @@ class RoomController extends Controller
         $occupiedBeds = Room::sum('current_occupancy');
         $availableBeds = $totalBeds - $occupiedBeds;
 
-        return view('Pages.Admin.room_allocation', compact(
+        return view('Pages.Admin.Room_allocation', compact(
             'rooms',
             'totalRooms',
             'availableRooms',

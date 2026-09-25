@@ -92,6 +92,11 @@
                 </a>
             @endif
 
+            <!-- ✅ Add New Room Button -->
+            <a href="{{ route('room-allocation.create') }}" class="btn-add-room">
+                <i class="bi bi-plus-circle"></i> Add New Room
+            </a>
+
         </div>
     </form>
 
@@ -340,6 +345,30 @@
     color: #1e293b;
 }
 
+/* ✅ Add New Room Button */
+.btn-add-room {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+}
+
+.btn-add-room:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+    color: white;
+}
+
 /* Rooms Table */
 .rooms-table-card {
     background: white;
@@ -528,8 +557,10 @@
     .search-input-wrapper,
     .filter-select,
     .btn-search-room,
-    .btn-clear-room {
+    .btn-clear-room,
+    .btn-add-room {
         width: 100%;
+        justify-content: center;
     }
 }
 </style>

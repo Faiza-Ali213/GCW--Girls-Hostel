@@ -54,23 +54,47 @@
     </div>
 </div>
 
-<!-- Search and Filter -->
-<div class="filter-section">
-    <div class="search-box">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Search by student name, room or phone..." value="{{ request('search') }}">
-    </div>
-    <select id="statusFilter" class="filter-select">
-        <option value="">All Status</option>
-        <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Paid</option>
-        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-        <option value="partial" {{ request('status') == 'partial' ? 'selected' : '' }}>Partial</option>
-    </select>
-</div>
+<!-- ✅ Search and Filter - NOW WITH FORM -->
+<form action="{{ route('fee_record') }}" method="GET" id="feeSearchForm">
+    <div class="filter-section">
+        
+        <!-- Search Input -->
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" 
+                   name="search"
+                   id="searchInput" 
+                   placeholder="Search by student name, room or phone..." 
+                   value="{{ request('search') }}"
+                   onkeypress="if(event.key === 'Enter'){ this.form.submit(); }">
+        </div>
 
-<!-- Fee Records Table - ✅ UPDATED FOR SCROLLING -->
-<div class="modern-table" style="overflow-x: auto; width: 100%;">
-    <table class="table table-hover" id="feeTable" style="min-width: 1100px;">
+        <!-- Status Filter -->
+        <select name="status" id="statusFilter" class="filter-select" onchange="this.form.submit()">
+            <option value="">All Status</option>
+            <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Paid</option>
+            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+            <option value="partial" {{ request('status') == 'partial' ? 'selected' : '' }}>Partial</option>
+        </select>
+
+        <!-- Search Button -->
+        <button type="submit" class="btn-search-fee">
+            <i class="fas fa-search"></i> Search
+        </button>
+
+        <!-- Clear Button -->
+        @if(request('search') || request('status'))
+            <a href="{{ route('fee_record') }}" class="btn-clear-fee">
+                <i class="fas fa-times"></i> Clear
+            </a>
+        @endif
+
+    </div>
+</form>
+
+<!-- Fee Records Table -->
+<div class="modern-table">
+    <table class="table table-hover" id="feeTable">
         <thead>
             <tr>
                 <th style="width:50px;">Sr.No</th>
@@ -121,27 +145,27 @@
                 </td>
                 <td class="text-center">
                     <div class="action-group">
-                        <!-- View Button -->
+                        <!-- View Button - Always Visible -->
                         <a href="{{ route('fee-record.show', $record->id) }}" class="action-btn view" title="View Details">
                             <i class="fas fa-eye"></i>
                         </a>
                         
-                        <!-- Edit Button -->
+                        <!-- Edit Button - Always Visible -->
                         <a href="{{ route('fee-record.edit', $record->id) }}" class="action-btn edit" title="Edit Record">
                             <i class="fas fa-edit"></i>
                         </a>
                         
                         @if($record->fee_status == 'paid')
-                            <!-- When PAID: Show Receipt Button -->
-                            <a href="{{ route('fee-record.receipt', $record->id) }}" class="action-btn receipt" title="View Receipt">
-                                <i class="fas fa-receipt"></i>
+                            <!-- When PAID: Show Receipt Button (No Pay) -->
+                            <a href="{{ route('fee-record.receipt', $record->id) }}" class="action-btn view" title="View Receipt" style="background: #ECFDF5; border-color: #10B981;">
+                                <i class="fas fa-receipt" style="color: #10B981 !important;"></i>
                             </a>
                         @elseif($record->fee_status == 'partial')
                             <!-- When PARTIAL: Show Pay and Receipt -->
                             <a href="{{ route('fee-record.pay', $record->id) }}" class="action-btn pay" title="Pay Fee">
                                 <i class="fas fa-hand-holding-usd"></i>
                             </a>
-                            <a href="{{ route('fee-record.receipt', $record->id) }}" class="action-btn receipt" title="View Receipt">
+                            <a href="{{ route('fee-record.receipt', $record->id) }}" class="action-btn view" title="View Receipt">
                                 <i class="fas fa-receipt"></i>
                             </a>
                         @else
@@ -174,7 +198,7 @@
 <!-- Pagination -->
 @if(isset($feeRecords) && $feeRecords->count() > 0)
 <div class="pagination-wrapper">
-    {{ $feeRecords->links() }}
+    {{ $feeRecords->appends(request()->query())->links() }}
 </div>
 @endif
 
@@ -204,6 +228,51 @@
         | Last updated: {{ now()->format('d-m-Y H:i:s') }}
     </small>
 </div>
+
+{{-- ✅ Search Button CSS --}}
+<style>
+    .btn-search-fee {
+        background: linear-gradient(135deg, #4F46E5 0%, #4338CA 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+    .btn-search-fee:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+        color: white;
+    }
+
+    .btn-clear-fee {
+        background: #f1f5f9;
+        color: #64748b;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+    .btn-clear-fee:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+        text-decoration: none;
+    }
+</style>
 
 @endsection
 
