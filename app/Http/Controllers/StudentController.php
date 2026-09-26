@@ -56,7 +56,13 @@ class StudentController extends Controller
             'student_name' => 'required|string|max:255',
             'father_name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
-            'cnic_number' => 'required|string|max:20|unique:students',
+            'cnic_number' => [
+                'required',
+                'string',
+                'max:15',
+                'unique:students',
+                'regex:/^[0-9]{5}-?[0-9]{7}-?[0-9]{1}$/',   // ✅ 13 digits CNIC only
+            ],
             'address' => 'required|string',
             'email' => 'nullable|email|max:255|unique:students',
             'room_number' => 'nullable|string|max:50',
@@ -71,6 +77,12 @@ class StudentController extends Controller
             'medical_conditions' => 'nullable|string',
             'remarks' => 'nullable|string',
             'profile_picture' => 'nullable|image|max:2048'
+        ], [
+            // ✅ Custom CNIC error messages
+            'cnic_number.regex' => 'CNIC 13 digits ka hona chahiye (e.g., 34101-1234567-8)',
+            'cnic_number.required' => 'CNIC number zaroori hai',
+            'cnic_number.unique' => 'Ye CNIC pehle se registered hai',
+            'cnic_number.max' => 'CNIC maximum 15 characters ka hona chahiye',
         ]);
 
         // Step 2: If validation fails, redirect back with errors
@@ -94,23 +106,19 @@ class StudentController extends Controller
                 $room = Room::find($request->room_id);
 
                 if ($room) {
-                    // Check if room has available beds
                     if (!$room->hasAvailableBeds()) {
                         return redirect()->back()
                             ->with('error', 'Room ' . $room->room_number . ' is already full.')
                             ->withInput();
                     }
 
-                    // Assign room to student
                     $validated['room_id'] = $room->id;
                     $validated['room_number'] = $room->room_number;
                     $validated['room_type'] = $room->room_type;
 
-                    // Increment room occupancy
                     $room->incrementOccupancy();
                 }
             } else {
-                // If room_number is provided but room_id is not, find room by number
                 if ($request->filled('room_number')) {
                     $room = Room::where('room_number', $request->room_number)->first();
 
@@ -120,18 +128,15 @@ class StudentController extends Controller
                             ->withInput();
                     }
 
-                    // Check if room has available beds
                     if (!$room->hasAvailableBeds()) {
                         return redirect()->back()
                             ->with('error', 'Room ' . $request->room_number . ' is already full.')
                             ->withInput();
                     }
 
-                    // Assign room to student
                     $validated['room_id'] = $room->id;
                     $validated['room_type'] = $room->room_type;
 
-                    // Increment room occupancy
                     $room->incrementOccupancy();
                 }
             }
@@ -143,7 +148,6 @@ class StudentController extends Controller
                 ->with('success', 'Student added successfully! ✅');
 
         } catch (\Exception $e) {
-            // Step 6: Handle database errors
             return redirect()->back()
                 ->with('error', 'Failed to add student: ' . $e->getMessage())
                 ->withInput();
@@ -173,7 +177,6 @@ class StudentController extends Controller
             ], 400);
         }
         
-        // Get rooms with available beds
         $rooms = Room::where('room_type', $roomType)
                       ->where('status', 'available')
                       ->where('current_occupancy', '<', 'capacity')
@@ -200,7 +203,6 @@ class StudentController extends Controller
             ], 400);
         }
         
-        // Find room by room number
         $room = Room::where('room_number', $roomNumber)->first();
         
         if (!$room) {
@@ -210,7 +212,6 @@ class StudentController extends Controller
             ]);
         }
         
-        // Check if room has available beds
         if ($room->current_occupancy >= $room->capacity) {
             return response()->json([
                 'success' => true,
@@ -233,7 +234,6 @@ class StudentController extends Controller
     {
         $student = Student::with('room')->findOrFail($id);
         
-        // Get all rooms with available beds for dropdown
         $rooms = Room::where('status', 'available')
                       ->where('current_occupancy', '<', 'capacity')
                       ->orderBy('room_number')
@@ -253,7 +253,14 @@ class StudentController extends Controller
             'student_name' => 'sometimes|required|string|max:255',
             'father_name' => 'sometimes|required|string|max:255',
             'phone_number' => 'sometimes|required|string|max:20',
-            'cnic_number' => 'sometimes|required|string|max:20|unique:students,cnic_number,' . $id,
+            'cnic_number' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:15',
+                'unique:students,cnic_number,' . $id,
+                'regex:/^[0-9]{5}-?[0-9]{7}-?[0-9]{1}$/',   // ✅ 13 digits CNIC only
+            ],
             'address' => 'sometimes|required|string',
             'email' => 'nullable|email|max:255|unique:students,email,' . $id,
             'room_number' => 'nullable|string|max:50',
@@ -268,11 +275,15 @@ class StudentController extends Controller
             'medical_conditions' => 'nullable|string',
             'remarks' => 'nullable|string',
             'profile_picture' => 'nullable|image|max:2048'
+        ], [
+            // ✅ Custom CNIC error messages
+            'cnic_number.regex' => 'CNIC 13 digits ka hona chahiye (e.g., 34101-1234567-8)',
+            'cnic_number.required' => 'CNIC number zaroori hai',
+            'cnic_number.unique' => 'Ye CNIC pehle se registered hai',
+            'cnic_number.max' => 'CNIC maximum 15 characters ka hona chahiye',
         ]);
 
-        // Handle profile picture update
         if ($request->hasFile('profile_picture')) {
-            // Delete old picture
             if ($student->profile_picture) {
                 Storage::disk('public')->delete($student->profile_picture);
             }
@@ -280,9 +291,7 @@ class StudentController extends Controller
             $validated['profile_picture'] = $path;
         }
 
-        // Handle room change - Remove from old room
         if ($request->filled('room_id') && $request->room_id != $student->room_id) {
-            // Remove from old room
             if ($student->room_id) {
                 $oldRoom = Room::find($student->room_id);
                 if ($oldRoom) {
@@ -290,7 +299,6 @@ class StudentController extends Controller
                 }
             }
             
-            // Assign to new room
             $newRoom = Room::find($request->room_id);
             if ($newRoom && $newRoom->hasAvailableBeds()) {
                 $validated['room_id'] = $newRoom->id;
@@ -303,10 +311,8 @@ class StudentController extends Controller
                     ->withInput();
             }
         } elseif ($request->filled('room_number') && $request->room_number != $student->room_number) {
-            // Fallback: Find room by room_number
             $newRoom = Room::where('room_number', $request->room_number)->first();
             if ($newRoom && $newRoom->hasAvailableBeds()) {
-                // Remove from old room
                 if ($student->room_id) {
                     $oldRoom = Room::find($student->room_id);
                     if ($oldRoom) {
@@ -323,7 +329,6 @@ class StudentController extends Controller
                     ->withInput();
             }
         } elseif (empty($request->room_number) && empty($request->room_id) && $student->room_id) {
-            // Room removed - free up the room
             $oldRoom = Room::find($student->room_id);
             if ($oldRoom) {
                 $oldRoom->decrementOccupancy();
@@ -346,7 +351,6 @@ class StudentController extends Controller
         try {
             $student = Student::findOrFail($id);
             
-            // Remove from room if assigned
             if ($student->room_id) {
                 $room = Room::find($student->room_id);
                 if ($room) {
@@ -354,7 +358,6 @@ class StudentController extends Controller
                 }
             }
             
-            // Delete profile picture if exists
             if ($student->profile_picture) {
                 Storage::disk('public')->delete($student->profile_picture);
             }

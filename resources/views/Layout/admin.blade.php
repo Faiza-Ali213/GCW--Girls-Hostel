@@ -692,14 +692,39 @@
             color: var(--gcw-secondary);
         }
 
-        /* ========== MAIN CONTENT ========== */
+        /* ============================================ */
+        /* ✅ MAIN CONTENT - FIXED FOR SCROLL           */
+        /* ============================================ */
         .main-wrapper {
             margin-left: var(--sidebar-width);
             padding: 30px 35px;
             min-height: calc(100vh - 74px);
+            /* ✅ FIX: Content area ko constrain karein */
+            max-width: calc(100% - var(--sidebar-width));
+            width: 100%;
+            overflow-x: auto;
+            box-sizing: border-box;
         }
 
-        /* ========== RESPONSIVE ========== */
+        /* Custom scrollbar for main content */
+        .main-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+        .main-wrapper::-webkit-scrollbar-track {
+            background: #F1F5F9;
+            border-radius: 10px;
+        }
+        .main-wrapper::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
+        .main-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+
+        /* ============================================ */
+        /* ✅ RESPONSIVE                                */
+        /* ============================================ */
         @media (max-width: 992px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -712,6 +737,9 @@
             }
             .main-wrapper {
                 margin-left: 0;
+                max-width: 100%;
+                width: 100%;
+                overflow-x: auto;
             }
             .hamburger-btn {
                 display: block;
@@ -724,6 +752,9 @@
             }
             .main-wrapper {
                 padding: 16px;
+                max-width: 100%;
+                width: 100%;
+                overflow-x: auto;
             }
             .page-title {
                 font-size: 16px;
@@ -783,7 +814,7 @@
     @stack('styles')
 </head>
 <body>
-@stack('scripts')
+    @stack('scripts')
     <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
@@ -1059,166 +1090,3 @@
 
         // Handle notification click - mark as read before navigating
         document.querySelectorAll('.notification-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                // If it's unread, mark it as read
-                if (this.classList.contains('unread')) {
-                    e.preventDefault(); // Prevent navigation until AJAX completes
-                    
-                    const notificationId = this.dataset.id;
-                    const link = this.dataset.link;
-                    
-                    fetch(`/notifications/${notificationId}/mark-as-read`, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Remove unread styling
-                            this.classList.remove('unread');
-                            const badge = this.querySelector('.notif-badge');
-                            if (badge) badge.remove();
-                            
-                            // Check if any unread remain
-                            const unreadCount = document.querySelectorAll('.notification-item.unread').length;
-                            if (unreadCount === 0) {
-                                document.querySelector('.notification-dot').style.display = 'none';
-                                const sidebarBadge = document.querySelector('.nav-link-custom .nav-badge');
-                                if (sidebarBadge) sidebarBadge.remove();
-                                const markAllBtn = document.getElementById('markAllRead');
-                                if (markAllBtn) markAllBtn.remove();
-                            }
-                            
-                            // Navigate to the link
-                            if (link && link !== '#') {
-                                window.location.href = link;
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        // Still navigate even if AJAX fails
-                        if (link && link !== '#') {
-                            window.location.href = link;
-                        }
-                    });
-                } else {
-                    // Already read, just navigate
-                    const link = this.dataset.link;
-                    if (link && link !== '#') {
-                        window.location.href = link;
-                    }
-                }
-            });
-        });
-
-        // Mark all as read - AJAX
-        document.getElementById('markAllRead')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            fetch('{{ route("notifications.mark-all-as-read") }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Remove unread badges from all items
-                    document.querySelectorAll('.notification-item.unread').forEach(item => {
-                        item.classList.remove('unread');
-                        const badge = item.querySelector('.notif-badge');
-                        if (badge) badge.remove();
-                    });
-                    // Hide the dot
-                    document.querySelector('.notification-dot').style.display = 'none';
-                    // Update sidebar badge
-                    const sidebarBadge = document.querySelector('.nav-link-custom .nav-badge');
-                    if (sidebarBadge) sidebarBadge.remove();
-                    // Remove mark all read button
-                    const markAllBtn = document.getElementById('markAllRead');
-                    if (markAllBtn) markAllBtn.remove();
-                    
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'All marked as read',
-                        timer: 1500,
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-end'
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Failed to mark all as read',
-                    timer: 2000,
-                    showConfirmButton: false,
-                    toast: true,
-                    position: 'top-end'
-                });
-            });
-        });
-
-        // Logout Confirmation
-        function confirmLogout(event) {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You will be logged out of the system",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#4F46E5',
-                cancelButtonColor: '#EF4444',
-                confirmButtonText: 'Yes, Logout',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('logout-form').submit();
-                }
-            });
-        }
-
-        // Auto-close sidebar on route change (for mobile)
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-link-custom');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (window.innerWidth <= 992) {
-                        sidebar.classList.remove('active');
-                        overlay.classList.remove('active');
-                    }
-                });
-            });
-        });
-
-        // Add active state to current page
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentUrl = window.location.href;
-            const navLinks = document.querySelectorAll('.nav-link-custom');
-            
-            navLinks.forEach(link => {
-                if (link.href === currentUrl) {
-                    const parentLi = link.closest('.nav-item');
-                    if (parentLi) {
-                        const siblings = parentLi.parentElement.querySelectorAll('.nav-item');
-                        siblings.forEach(s => s.classList.remove('active'));
-                        parentLi.classList.add('active');
-                    }
-                }
-            });
-        });
-    </script>
-</body>
-</html>

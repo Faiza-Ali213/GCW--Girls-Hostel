@@ -190,7 +190,7 @@
                     <!-- Phone -->
                     <div class="detail-item">
                         <h4>Phone</h4>
-                        <p><a href="tel:03157180041">0315 718 0041</a></p>
+                        <p><a href="tel:03143624827">0314 362 4827</a></p>
                     </div>
 
                     <!-- Email -->

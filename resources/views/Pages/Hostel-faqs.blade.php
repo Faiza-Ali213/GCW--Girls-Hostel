@@ -40,7 +40,7 @@
                         $faqs = [
                             [
                                 'q' => 'What is the hostel fee per year?',
-                                'a' => 'The annual hostel fee is PKR 30,000. This covers room accommodation and basic hostel facilities. Payments can be made on a yearly basis at the warden office.'
+                                'a' => 'The annual hostel fee is PKR 30,000. This covers room accommodation and basic hostel facilities. Payments can be made on a yearly basis at the clerk office.'
                             ],
                             [
                                 'q' => 'Is the mess fee included in the hostel fee?',

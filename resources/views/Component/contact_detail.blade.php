@@ -13,7 +13,7 @@
                 <div class="info-grid">
                     <div class="info-block">
                         <h6 class="info-label">Phone</h6>
-                        <p class="info-detail">03157180041</p>
+                        <p class="info-detail">03143624827</p>
                     </div>
                     <div class="info-block">
                         <h6 class="info-label">Email</h6>
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <a href="https://wa.me/03157180041" class="btn-contact-wide">Contact Us</a>
+                    <a href="https://wa.me/03143624827" class="btn-contact-wide">Contact Us</a>
                 </div>
             </div>
 

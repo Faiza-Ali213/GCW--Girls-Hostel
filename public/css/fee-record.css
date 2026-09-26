@@ -194,12 +194,12 @@
 }
 
 /* ============================================ */
-/* MODERN TABLE - SCROLLABLE FIX                */
+/* MODERN TABLE - SCROLLABLE FIX (UPDATED)      */
 /* ============================================ */
 .modern-table {
-    overflow-x: auto !important;
+    /* ✅ overflow-x HATA DIYA - ab wrapper par hai */
+    overflow: visible;
     width: 100% !important;
-    -webkit-overflow-scrolling: touch;
     background: white;
     border-radius: 15px;
     padding: 5px;
@@ -207,10 +207,39 @@
     margin-bottom: 20px;
 }
 
-.modern-table table {
+/* ✅ NAYA: Scroll Wrapper */
+.table-responsive-wrapper {
+    overflow-x: auto !important;
+    overflow-y: visible;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    border-radius: 10px;
+}
+
+.table-responsive-wrapper table {
     min-width: 1100px;
     margin-bottom: 0;
     width: 100%;
+}
+
+/* ✅ Scrollbar Style (wrapper ke liye) */
+.table-responsive-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive-wrapper::-webkit-scrollbar-track {
+    background: #F1F5F9;
+    border-radius: 10px;
+}
+
+.table-responsive-wrapper::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 10px;
+}
+
+.table-responsive-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
 }
 
 .modern-table thead th {
@@ -235,25 +264,6 @@
 
 .modern-table tbody tr:hover {
     background: #F8FAFC;
-}
-
-/* Scrollbar Style */
-.modern-table::-webkit-scrollbar {
-    height: 8px;
-}
-
-.modern-table::-webkit-scrollbar-track {
-    background: #F1F5F9;
-    border-radius: 10px;
-}
-
-.modern-table::-webkit-scrollbar-thumb {
-    background: #CBD5E1;
-    border-radius: 10px;
-}
-
-.modern-table::-webkit-scrollbar-thumb:hover {
-    background: #94A3B8;
 }
 
 /* ============================================ */
@@ -405,7 +415,6 @@
     color: white;
 }
 
-/* Receipt Button */
 .action-btn.receipt {
     background: #ECFDF5;
     border-color: #10B981;

@@ -12,7 +12,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\UserManagementController;
-use App\Http\Controllers\DashboardController;   // ✅ ADDED
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/forgot-password', function () {
-    return view('Pages.Auth.forgot-password'); // ✅ CHANGED: auth -> Pages.Auth
+    return view('Pages.Auth.forgot-password');
 })->name('password.request');
 
 Route::post('/forgot-password', function () {
@@ -29,7 +29,7 @@ Route::post('/forgot-password', function () {
 })->name('password.email');
 
 Route::get('/reset-password/{token}', function ($token) {
-    return view('Pages.Auth.reset-password', ['token' => $token]); // ✅ CHANGED: auth -> Pages.Auth
+    return view('Pages.Auth.reset-password', ['token' => $token]);
 })->name('password.reset');
 
 Route::post('/reset-password', function () {
@@ -54,6 +54,13 @@ Route::post('/register', [AuthenticationController::class, 'signup'])->name('reg
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
     
+    // ✅ My Complaints (accessible by ALL logged-in users)
+    Route::get('/my-complaints', [ComplaintController::class, 'myComplaints'])->name('my-complaints');
+    
+    // ✅ Complaint Registration (Logged-in users only)
+    Route::get('/complaint-registration', [ComplaintController::class, 'create'])->name('complaint.registration');
+    Route::post('/complaint-registration', [ComplaintController::class, 'store'])->name('complaint.store');
+    
     // ============================================
     // Profile Management Routes
     // ============================================
@@ -72,11 +79,11 @@ Route::middleware('auth')->group(function () {
     // ============================================
     Route::middleware(\App\Http\Middleware\AdminOrWarden::class)->group(function () {
         
-        // ✅ Dashboard (Dynamic with real stats)
+        // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // ============================================
-        // User Management Routes (Full CRUD)
+        // User Management Routes
         // ============================================
         Route::get('/users/create', [UserManagementController::class, 'create'])->name('users.create');
         Route::post('/users', [UserManagementController::class, 'store'])->name('users.store');
@@ -88,6 +95,13 @@ Route::middleware('auth')->group(function () {
         Route::patch('/users/{id}/status', [UserManagementController::class, 'updateStatus'])->name('users.update-status');
         Route::get('/users/export', [UserManagementController::class, 'export'])->name('users.export');
         Route::get('/user-management', [UserManagementController::class, 'index'])->name('user_management');
+
+        // ============================================
+        // ✅ Student AJAX Routes — MUST BE BEFORE /student/{id}
+        // ============================================
+        Route::get('/student/get-rooms-by-type', [StudentController::class, 'getRoomsByType'])->name('student.getRoomsByType');
+        Route::get('/student/validate-room', [StudentController::class, 'validateRoom'])->name('student.validateRoom');
+        Route::get('/student/search', [StudentController::class, 'searchStudents'])->name('student.search');
 
         // ============================================
         // Student Management
@@ -111,10 +125,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/student-records/{id}/edit', [StudentController::class, 'edit'])->name('student-records.edit');
         Route::put('/student-records/{id}', [StudentController::class, 'update'])->name('student-records.update');
         Route::delete('/student-records/{id}', [StudentController::class, 'destroy'])->name('student-records.destroy');
-        
-        Route::get('/student/get-rooms-by-type', [StudentController::class, 'getRoomsByType'])->name('student.getRoomsByType');
-        Route::get('/student/validate-room', [StudentController::class, 'validateRoom'])->name('student.validateRoom');
-        Route::get('/student/search', [StudentController::class, 'searchStudents'])->name('student.search');
 
         // ============================================
         // Staff Management
@@ -169,7 +179,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/visitor-record', [VisitorController::class, 'index'])->name('visitor-record');
 
         // ============================================
-        // Complaint Management
+        // Complaint Management (Admin)
         // ============================================
         Route::prefix('complaints')->name('complaints.')->group(function () {
             Route::get('/', [ComplaintController::class, 'index'])->name('index');
@@ -234,6 +244,11 @@ Route::middleware('auth')->group(function () {
         // Notification Management
         // ============================================
         Route::prefix('notifications')->name('notifications.')->group(function () {
+            Route::delete('/clear-all', [NotificationController::class, 'clearAll'])->name('clear-all');
+            Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
+            Route::get('/unread-count', [NotificationController::class, 'getUnreadCount'])->name('unread-count');
+            Route::get('/latest', [NotificationController::class, 'getLatest'])->name('latest');
+            
             Route::get('/', [NotificationController::class, 'index'])->name('index');
             Route::get('/create', [NotificationController::class, 'create'])->name('create');
             Route::post('/', [NotificationController::class, 'store'])->name('store');
@@ -243,10 +258,6 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{notification}', [NotificationController::class, 'destroy'])->name('destroy');
             Route::post('/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
             Route::post('/{notification}/mark-as-unread', [NotificationController::class, 'markAsUnread'])->name('mark-as-unread');
-            Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
-            Route::delete('/clear-all', [NotificationController::class, 'clearAll'])->name('clear-all');
-            Route::get('/unread-count', [NotificationController::class, 'getUnreadCount'])->name('unread-count');
-            Route::get('/latest', [NotificationController::class, 'getLatest'])->name('latest');
         });
 
         Route::get('/Notification', [NotificationController::class, 'index'])->name('Notification');
@@ -266,17 +277,11 @@ Route::middleware('auth')->group(function () {
             }
         })->name('settings');
     });
-    
-    // ============================================
-    // Complaint Registration (Public - For Users)
-    // ============================================
-    Route::get('/complaint-registration', [ComplaintController::class, 'create'])->name('complaint.registration');
-    Route::post('/complaint-registration', [ComplaintController::class, 'store'])->name('complaint.store');
 });
 
 /*
 |--------------------------------------------------------------------------
-| Main Website Routes (Public - Accessible by everyone)
+| Main Website Routes (Public)
 |--------------------------------------------------------------------------
 */
 Route::get('/', [PageController::class, 'home'])->name('home');
@@ -290,7 +295,7 @@ Route::get('/rules', [PageController::class, 'rules'])->name('rules');
 Route::get('/booking', [PageController::class, 'booking'])->name('booking');
 
 // ============================================================
-// ✅ CONTACT FORM POST ROUTE
+// CONTACT FORM POST ROUTE
 // ============================================================
 Route::post('/contact', function (Illuminate\Http\Request $request) {
     

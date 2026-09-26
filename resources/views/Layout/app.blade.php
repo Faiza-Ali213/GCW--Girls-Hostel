@@ -593,11 +593,18 @@
                                     $userRole = Auth::user()->role ?? 'user';
                                 @endphp
                                 
-                                {{-- Sirf normal user ko Submit Complaint dikhao --}}
-                                @if($userRole === 'user' && Route::has('complaint.registration'))
-                                    <a href="{{ route('complaint.registration') }}" class="dropdown-item">
-                                        <i class="bi bi-exclamation-triangle"></i> Submit Complaint
-                                    </a>
+                                {{-- Sirf normal user ko Submit Complaint aur My Complaints dikhao --}}
+                                @if($userRole === 'user')
+                                    @if(Route::has('complaint.registration'))
+                                        <a href="{{ route('complaint.registration') }}" class="dropdown-item">
+                                            <i class="bi bi-exclamation-triangle"></i> Submit Complaint
+                                        </a>
+                                    @endif
+                                    @if(Route::has('my-complaints'))
+                                        <a href="{{ route('my-complaints') }}" class="dropdown-item">
+                                            <i class="bi bi-clipboard-check"></i> My Complaints
+                                        </a>
+                                    @endif
                                 @endif
                                 
                                 {{-- Admin aur Clerk ko Manage Complaints dikhao --}}
@@ -692,7 +699,7 @@
                         </li>
                         <li>
                             <i class="bi bi-telephone"></i>
-                            <span>0315-7180041</span>
+                            <span>0314 362 4827</span>
                         </li>
                         <li>
                             <i class="bi bi-envelope"></i>

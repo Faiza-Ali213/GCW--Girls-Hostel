@@ -39,7 +39,7 @@
                             <div class="info-icon"><i class="bi bi-phone"></i></div>
                             <div>
                                 <span class="info-label">Phone</span>
-                                <p class="info-value">0315 7180041</p>
+                                <p class="info-value">03143624827</p>
                             </div>
                         </div>
                         <div class="info-item">
@@ -80,13 +80,13 @@
                             <a href="https://twitter.com/" target="_blank" rel="noopener" aria-label="Twitter">
                                 <i class="bi bi-twitter"></i>
                             </a>
-                            <a href="https://wa.me/923157180041" target="_blank" rel="noopener" aria-label="WhatsApp">
+                            <a href="https://wa.me/923143624827" target="_blank" rel="noopener" aria-label="WhatsApp">
                                 <i class="bi bi-whatsapp"></i>
                             </a>
                         </div>
                     </div>
 
-                    <a href="https://wa.me/923157180041" class="whatsapp-btn">
+                    <a href="https://wa.me/923143624827" class="whatsapp-btn">
                         <i class="bi bi-whatsapp"></i> Chat on WhatsApp
                     </a>
                 </div>

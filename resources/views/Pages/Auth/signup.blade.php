@@ -16,6 +16,40 @@
     <!-- ===== SIGNUP CSS ===== -->
     <link rel="stylesheet" href="{{ asset('css/signup.css') }}">
     
+    <!-- ===== PASSWORD TOGGLE CSS ===== -->
+    <style>
+        .password-wrapper {
+            position: relative;
+        }
+        
+        .password-wrapper .form-control {
+            padding-right: 50px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #8B6B4A;
+            font-size: 16px;
+            padding: 5px;
+            transition: color 0.2s ease;
+            z-index: 10;
+        }
+        
+        .toggle-password:hover {
+            color: #4A3228;
+        }
+        
+        .toggle-password:focus {
+            outline: none;
+        }
+    </style>
+    
 </head>
 <body>
 
@@ -63,14 +97,42 @@
                 <input type="tel" class="form-control" name="phone" value="{{ old('phone') }}" placeholder="Enter your phone number">
             </div>
 
+            <!-- ✅ Password with Show/Hide -->
             <div class="form-group">
                 <label><i class="fas fa-lock"></i> Password</label>
-                <input type="password" class="form-control" name="password" placeholder="Create a password" required>
+                <div class="password-wrapper">
+                    <input type="password" 
+                           class="form-control" 
+                           name="password" 
+                           id="password" 
+                           placeholder="Create a password" 
+                           required>
+                    <button type="button" 
+                            class="toggle-password" 
+                            onclick="togglePassword('password', 'eyeIcon1')"
+                            title="Show/Hide Password">
+                        <i class="fas fa-eye" id="eyeIcon1"></i>
+                    </button>
+                </div>
             </div>
 
+            <!-- ✅ Confirm Password with Show/Hide -->
             <div class="form-group">
                 <label><i class="fas fa-lock"></i> Confirm Password</label>
-                <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm your password" required>
+                <div class="password-wrapper">
+                    <input type="password" 
+                           class="form-control" 
+                           name="password_confirmation" 
+                           id="password_confirmation" 
+                           placeholder="Confirm your password" 
+                           required>
+                    <button type="button" 
+                            class="toggle-password" 
+                            onclick="togglePassword('password_confirmation', 'eyeIcon2')"
+                            title="Show/Hide Password">
+                        <i class="fas fa-eye" id="eyeIcon2"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="terms">
@@ -94,6 +156,24 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ✅ Password Toggle JavaScript -->
+    <script>
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
 
 </body>
 </html>

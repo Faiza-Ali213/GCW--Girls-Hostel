@@ -227,24 +227,28 @@
                     <i class="fas fa-user-graduate"></i> Your Information
                 </div>
                 <div class="row">
+                    <!-- ✅ Full Name - Auto-fill from logged-in user -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Full Name <span class="required-star">*</span></label>
                         <input type="text" class="form-control @error('student_name') is-invalid @enderror" 
                                name="student_name" placeholder="Enter your full name" 
-                               value="{{ old('student_name') }}" required>
+                               value="{{ old('student_name', auth()->user()->name ?? '') }}" required>
                         @error('student_name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <!-- ✅ Email Address - Auto-fill from logged-in user -->
                     <div class="col-md-6 mb-3">
-    <label class="form-label">Email Address</label>
-    <input type="email" class="form-control @error('student_email') is-invalid @enderror" 
-           name="student_email" placeholder="student@example.com" 
-           value="{{ old('student_email') }}">
-    @error('student_email')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-</div>
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-control @error('student_email') is-invalid @enderror" 
+                               name="student_email" placeholder="student@example.com" 
+                               value="{{ old('student_email', auth()->user()->email ?? '') }}">
+                        @error('student_email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Room Number</label>
                         <input type="text" class="form-control @error('room_number') is-invalid @enderror" 
@@ -254,6 +258,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Contact Number</label>
                         <input type="tel" class="form-control @error('contact_number') is-invalid @enderror" 
@@ -263,6 +268,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Complaint By <span class="required-star">*</span></label>
                         <select class="form-control @error('complaint_by') is-invalid @enderror" 
